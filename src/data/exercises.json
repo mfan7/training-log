@@ -1,0 +1,2353 @@
+[
+ {
+  "id": "WU01",
+  "cn": "跑步机坡度间歇",
+  "en": "Treadmill incline intervals",
+  "cat": "WU",
+  "catName": "热身/有氧",
+  "size": "—",
+  "group": "热身",
+  "equip": "跑步机",
+  "home": false,
+  "homeNote": "居家可用 PW14 星跳 / 原地高抬腿 3–5分钟代替",
+  "muscles": "心肺、小腿、臀",
+  "cue": "坡度15%；速度5 跑1分钟 + 速度2 走1分钟为1轮",
+  "legacy": [
+   "#21 坡度15%：速度5 × 1分钟 + 速度2 × 1分钟"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "WU02",
+  "cn": "划船机",
+  "en": "Rowing machine (erg)",
+  "cat": "WU",
+  "catName": "热身/有氧",
+  "size": "—",
+  "group": "热身",
+  "equip": "划船机",
+  "home": false,
+  "homeNote": "同上",
+  "muscles": "全身、背、心肺",
+  "cue": "蹬腿→后仰→拉手，回程反序；背保持直",
+  "legacy": [
+   "#3 260 m",
+   "#44 1分钟 250 m",
+   "#48 250 m（约2分钟）"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "SQ01",
+  "cn": "杠铃后蹲",
+  "en": "Barbell back squat",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "杠铃+深蹲架",
+  "home": true,
+  "homeNote": "杠铃片≤90 lb + 杆；无深蹲架需自己翻上肩，重量受限，可改前蹲",
+  "muscles": "股四头、臀、核心",
+  "cue": "杠铃压斜方肌，挺胸收腹，蹲至大腿≥平行；可用3秒下放节奏",
+  "legacy": [
+   "#2 每侧70 lb",
+   "#9 每侧40 lb（总≈125 lb），3秒下放",
+   "#30 每侧45 lb（总135 lb）"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "SQ02",
+  "cn": "沙袋上肘前蹲",
+  "en": "Sandbag clean to front squat",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "沙袋",
+  "home": true,
+  "homeNote": "无沙袋→用杠铃翻至胸前做前蹲",
+  "muscles": "股四头、臀、上背",
+  "cue": "沙袋从地面提至胸前，肘部抬高抱住，直背前蹲",
+  "legacy": [
+   "#44 60 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SQ03",
+  "cn": "高脚杯深蹲",
+  "en": "Goblet squat (KB/DB)",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃/哑铃",
+  "home": true,
+  "homeNote": "用单只哑铃（≤45 lb）竖握",
+  "muscles": "股四头、臀",
+  "cue": "双手捧壶铃于胸前，肘在膝内侧，3秒下蹲",
+  "legacy": [
+   "#56 35 lb，3秒下蹲 × 10",
+   "#68 30 lb × 15",
+   "#81 35 lb × 10",
+   "#81 15 lb + 起身直臂前平举 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SQ04",
+  "cn": "相扑（马步）深蹲",
+  "en": "Sumo squat (KB or bodyweight)",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃/自重",
+  "home": true,
+  "homeNote": "用单只哑铃",
+  "muscles": "股四头、内收肌、臀",
+  "cue": "宽站距脚尖外八，壶铃垂于两腿间，蹲到底起身",
+  "legacy": [
+   "#31 25 lb × 10",
+   "#80 自重 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SQ05",
+  "cn": "深蹲机（哈克/史密斯）",
+  "en": "Squat machine (hack / Smith)",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→SQ01 杠铃深蹲",
+  "muscles": "股四头、臀",
+  "cue": "背贴靠垫，膝盖与脚尖同向",
+  "legacy": [
+   "#26 每侧90 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "SQ06",
+  "cn": "腿举",
+  "en": "Leg press",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→SL01 保加利亚分腿蹲（单腿负荷更高）",
+  "muscles": "股四头、臀",
+  "cue": "两种脚位：脚尖朝前 / 脚尖外八；下放至膝约90°，不锁死膝盖",
+  "legacy": [
+   "#C1 4组×10 @180/270/360 lb；脚尖朝前+外八"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "SQ07",
+  "cn": "腿举等长保持",
+  "en": "Leg press isometric hold",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→SQ12 靠墙静蹲（可抱哑铃）",
+  "muscles": "股四头、臀",
+  "cue": "推起后保持半屈膝静止（1–2分钟）",
+  "legacy": [
+   "#10 160 lb 保持1分钟",
+   "#37 180 lb 保持2分钟",
+   "#69 140 lb 保持1分钟"
+  ],
+  "load": "sec",
+  "inc": 10
+ },
+ {
+  "id": "SQ08",
+  "cn": "腿屈伸",
+  "en": "Leg extension",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→SL01 保加利亚分腿蹲 / SQ03 高脚杯深蹲",
+  "muscles": "股四头",
+  "cue": "脚尖朝前/外八两种；可做重×5→中×10→轻×15递减",
+  "legacy": [
+   "#10 单腿 20 lb × 12/侧",
+   "#22 60 lb × 15",
+   "#35 60 lb × 25",
+   "#C1 重×5→中×10→轻×15；脚尖朝前+外八"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "SQ09",
+  "cn": "坐球深蹲",
+  "en": "Squat to med ball (box squat)",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "药球",
+  "home": true,
+  "homeNote": "无药球→蹲坐训练凳",
+  "muscles": "股四头、臀",
+  "cue": "药球放身后，蹲至臀部轻触球后快速起立",
+  "legacy": [
+   "#5 18 lb球 × 50（快速）"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SQ10",
+  "cn": "徒手深蹲",
+  "en": "Air squat",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "股四头、臀",
+  "cue": "快速节奏，全幅度",
+  "legacy": [
+   "#5 × 25（快速）"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "SQ11",
+  "cn": "过头沙袋深蹲",
+  "en": "Overhead sandbag squat",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "沙袋",
+  "home": true,
+  "homeNote": "无沙袋→杠铃或单只哑铃过头",
+  "muscles": "股四头、肩、核心",
+  "cue": "沙袋举过头锁肘，宽站距深蹲",
+  "legacy": [
+   "#14 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SQ12",
+  "cn": "靠墙静蹲（夹球+举杆）",
+  "en": "Wall sit with ball squeeze & overhead bar",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "药球+短杆",
+  "home": true,
+  "homeNote": "无药球→膝间夹瑜伽砖或枕头；举杠铃杆",
+  "muscles": "股四头、内收肌、肩",
+  "cue": "背贴墙马步，膝间夹球，双手直臂上举横杆",
+  "legacy": [
+   "#32 膝夹球+直臂举杆"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "HG01",
+  "cn": "腿弯举（卧/坐）",
+  "en": "Leg curl (lying or seated)",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→TRX 腿弯举（仰卧，脚跟挂悬挂带）/ HG02 罗马尼亚硬拉",
+  "muscles": "腘绳肌（腿后筋）",
+  "cue": "脚尖朝前/外八；可做重×5→中×10→轻×15递减",
+  "legacy": [
+   "#1 60 lb × 15；第2组做到力竭",
+   "#36 65 lb × 20",
+   "#C1 重×5→中×10→轻×15；脚尖朝前+外八"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "HG02",
+  "cn": "罗马尼亚硬拉",
+  "en": "Romanian deadlift (RDL)",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "杠铃",
+  "home": true,
+  "homeNote": "杠铃（片≤90 lb + 杆）或双哑铃",
+  "muscles": "腘绳肌、臀、竖脊肌",
+  "cue": "微屈膝，臀部后推，挺胸直背，感到腿后侧拉伸后起身",
+  "legacy": [
+   "#38 90 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "HG03",
+  "cn": "传统硬拉（正反握）",
+  "en": "Conventional deadlift, mixed grip",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "杠铃",
+  "home": true,
+  "homeNote": "杠铃",
+  "muscles": "臀、腘绳肌、背",
+  "cue": "正反握每组交换强弱手；直背，杠铃贴腿",
+  "legacy": [
+   "#76 45 lb × 10，正反握交换"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "HG04",
+  "cn": "分腿站硬拉",
+  "en": "Split-stance deadlift",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "杠铃/哑铃",
+  "home": true,
+  "homeNote": "杠铃或单只哑铃",
+  "muscles": "臀、腘绳肌",
+  "cue": "双脚前后分开站立，直背硬拉；正反握",
+  "legacy": [
+   "#34 45 lb 正反握 × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "HG05",
+  "cn": "壶铃摆荡",
+  "en": "Kettlebell swing (Russian)",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃",
+  "home": true,
+  "homeNote": "无壶铃→单只哑铃竖握摆荡",
+  "muscles": "臀、腘绳肌、核心",
+  "cue": "髋部发力把壶铃\"甩\"到与地面平行，不是用手臂举",
+  "legacy": [
+   "#5 35 lb × 25",
+   "#50 35 lb × 15",
+   "#65 40 lb",
+   "#68 30 lb × 20"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HG06",
+  "cn": "弹力带臀桥（外展）",
+  "en": "Banded glute bridge with abduction",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "弹力带",
+  "home": true,
+  "homeNote": "布弹力圈",
+  "muscles": "臀中肌、臀大肌",
+  "cue": "弹力带套膝上，仰卧顶髋，膝向外撑，顶点保持3秒",
+  "legacy": [
+   "#32 × 10，顶点3秒"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "HG07",
+  "cn": "滚轮凳脚跟拖行",
+  "en": "Rolling-stool hamstring walk",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "滚轮凳",
+  "home": false,
+  "homeNote": "居家→TRX 腿弯举",
+  "muscles": "腘绳肌",
+  "cue": "坐在滚轮凳上，用脚跟抓地把身体拉向前",
+  "legacy": [
+   "#15 3趟往返"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HG08",
+  "cn": "瑞士球腿弯举",
+  "en": "Stability-ball hamstring curl",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "瑞士球",
+  "home": false,
+  "homeNote": "无瑞士球→TRX 腿弯举",
+  "muscles": "腘绳肌、核心",
+  "cue": "仰卧顶髋，脚跟在球上，屈膝把球拉近再伸直",
+  "legacy": [
+   "#47 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HG09",
+  "cn": "尺蠖爬（腿后侧拉伸）",
+  "en": "Inchworm",
+  "cat": "HG",
+  "catName": "下肢·髋铰链（腿后侧/臀）",
+  "size": "大",
+  "group": "腿",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腘绳肌、肩、核心",
+  "cue": "直腿弯腰手触地，手向前爬至平板，再走回",
+  "legacy": [
+   "#80 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "SL01",
+  "cn": "保加利亚分腿蹲",
+  "en": "Bulgarian split squat",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃/哑铃+凳",
+  "home": true,
+  "homeNote": "后脚搭训练凳或 TRX；双手各持哑铃",
+  "muscles": "股四头、臀",
+  "cue": "后脚搭凳/悬挂带，前腿下蹲，躯干略前倾",
+  "legacy": [
+   "#22 25 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL02",
+  "cn": "单腿深蹲（抱壶铃）",
+  "en": "Single-leg squat to box (goblet)",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃+箱",
+  "home": true,
+  "homeNote": "坐训练凳；抱单只哑铃",
+  "muscles": "股四头、臀、平衡",
+  "cue": "壶铃抱胸前，单腿坐到箱上再站起",
+  "legacy": [
+   "#38 25 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL03",
+  "cn": "哥萨克深蹲",
+  "en": "Cossack squat",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃",
+  "home": true,
+  "homeNote": "单只哑铃",
+  "muscles": "内收肌（大腿内侧）、臀",
+  "cue": "宽站距，重心移向一侧深蹲，另一腿伸直脚尖朝上",
+  "legacy": [
+   "#20 45 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL04",
+  "cn": "交叉步（屈膝礼）弓步行进",
+  "en": "Walking curtsy (crossover) lunge",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "自重/沙袋/壶铃",
+  "home": true,
+  "homeNote": "双手提哑铃 / 杠铃扛肩",
+  "muscles": "臀中肌、股四头、内收肌",
+  "cue": "后腿交叉到前腿后方，后膝轻点地；可负重（过头/扛肩/双手提）",
+  "legacy": [
+   "#15 沙袋过头，1趟往返",
+   "#28 自重，后膝点地+对侧手上举，1趟",
+   "#65 40 lb沙袋扛肩，1趟/侧",
+   "#68 自重 × 12",
+   "#69 双手提25 lb壶铃 × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL05",
+  "cn": "弹力带侧向行走",
+  "en": "Banded lateral walk (monster walk)",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "弹力带",
+  "home": true,
+  "homeNote": "布弹力圈",
+  "muscles": "臀中肌（大腿外侧）",
+  "cue": "弹力带套脚踝，半蹲低髋，横向迈步，带子保持张力",
+  "legacy": [
+   "#14 抱沙袋，4步 × 5/侧",
+   "#34 黑色弹力带套脚踝，微蹲"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "SL06",
+  "cn": "壶铃登阶",
+  "en": "Kettlebell step-up",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃+箱",
+  "home": true,
+  "homeNote": "踩训练凳（先确认稳固）",
+  "muscles": "股四头、臀",
+  "cue": "整只脚踩箱，前腿发力上台",
+  "legacy": [
+   "#80 25 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL07",
+  "cn": "壶铃弓步",
+  "en": "Kettlebell lunge",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "壶铃",
+  "home": true,
+  "homeNote": "双手提哑铃",
+  "muscles": "股四头、臀",
+  "cue": "前后脚下蹲至双膝约90°",
+  "legacy": [
+   "#49 30 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL08",
+  "cn": "侧弓步推片",
+  "en": "Lateral lunge with plate press-out",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "杠铃片",
+  "home": true,
+  "homeNote": "",
+  "muscles": "内收肌、股四头、肩",
+  "cue": "向侧弓步同时双手把杠铃片向前推出",
+  "legacy": [
+   "#35 35 lb片 × 6/侧"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "SL09",
+  "cn": "单腿跳箱+落地深蹲",
+  "en": "Single-leg box hop to squat landing",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "箱",
+  "home": false,
+  "homeNote": "",
+  "muscles": "股四头、臀、爆发",
+  "cue": "单腿起跳上箱，下箱落地成深蹲",
+  "legacy": [
+   "#56 × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SL10",
+  "cn": "低位侧向交叉跳",
+  "en": "Low-stance lateral crossover hop",
+  "cat": "SL",
+  "catName": "下肢·单腿/侧向",
+  "size": "大",
+  "group": "腿",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "臀中肌、心肺",
+  "cue": "保持马步低位，左右交叉步跳",
+  "legacy": [
+   "#5 × 12"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "HPU01",
+  "cn": "坐姿推胸机",
+  "en": "Seated chest press machine",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→HPU04 哑铃卧推",
+  "muscles": "胸、前束、三头",
+  "cue": "窄握偏内胸/三头，宽握偏外胸；肩胛后收",
+  "legacy": [
+   "#7 窄握 45 lb × 6",
+   "#8 宽握 35 lb × 12；最后一组力竭",
+   "#24 45 lb × 10",
+   "#51 70 lb × 10",
+   "#64 × 15",
+   "#C3"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU02",
+  "cn": "单臂坐姿推胸",
+  "en": "Single-arm chest press",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "器械",
+  "home": false,
+  "homeNote": "居家→单臂哑铃卧推",
+  "muscles": "胸、核心抗旋",
+  "cue": "一侧推，躯干不转",
+  "legacy": [
+   "#59 45 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU03",
+  "cn": "杠铃卧推",
+  "en": "Barbell bench press",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "杠铃+卧推凳",
+  "home": false,
+  "homeNote": "无卧推架，居家不建议杠铃卧推→HPU04 哑铃卧推",
+  "muscles": "胸、三头、前束",
+  "cue": "下放至膻中（胸骨中部）轻触，再推起；原记录 35 lb 为每侧加片（总≈115 lb）",
+  "legacy": [
+   "#75 每侧35 lb（总≈115 lb）× 10，下放至膻中"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU04",
+  "cn": "哑铃卧推",
+  "en": "Dumbbell bench press",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "哑铃+凳",
+  "home": true,
+  "homeNote": "",
+  "muscles": "胸、三头",
+  "cue": "",
+  "legacy": [
+   "#35 40 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU05",
+  "cn": "上斜哑铃卧推",
+  "en": "Incline dumbbell press",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "哑铃+可调凳",
+  "home": true,
+  "homeNote": "",
+  "muscles": "上胸、前束",
+  "cue": "凳子约30°",
+  "legacy": [
+   "#18 35 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU06",
+  "cn": "哑铃/壶铃飞鸟",
+  "en": "Dumbbell flye",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "哑铃/壶铃+凳",
+  "home": true,
+  "homeNote": "哑铃",
+  "muscles": "胸",
+  "cue": "微屈肘，弧线打开再合拢",
+  "legacy": [
+   "#18 20 lb × 15",
+   "#32 10 lb壶铃 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU07",
+  "cn": "绳索夹胸（高/中/低）",
+  "en": "Cable press / fly (high, mid, low)",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "绳索双滑轮",
+  "home": false,
+  "homeNote": "居家→HPU06 哑铃飞鸟 或 TRX 飞鸟",
+  "muscles": "胸（上/中/下部）",
+  "cue": "三个高度各做一遍",
+  "legacy": [
+   "#C3 高/中/低"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU08",
+  "cn": "俯卧撑（标准/宽距/贴地）",
+  "en": "Push-up (standard / wide / hand-release)",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "胸、三头、核心",
+  "cue": "贴地版：胸贴地、手抬离地面再推起",
+  "legacy": [
+   "#42 × 10",
+   "#43 × 10",
+   "#45 自重",
+   "#48 贴地 × 10",
+   "#63 贴地",
+   "#68 × 10",
+   "#77 × 10",
+   "#78 宽距 × 10",
+   "#80 × 25",
+   "#C3 收尾"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "HPU09",
+  "cn": "弹力带/负重俯卧撑",
+  "en": "Banded or weighted push-up",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "弹力带/负重片",
+  "home": true,
+  "homeNote": "",
+  "muscles": "胸、三头",
+  "cue": "弹力带绕背压在两手下增加阻力",
+  "legacy": [
+   "#C3 弹力带 / 负重"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU10",
+  "cn": "斜杠俯卧撑",
+  "en": "Incline bar push-up",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "杠/史密斯杠",
+  "home": true,
+  "homeNote": "手撑训练凳做上斜俯卧撑",
+  "muscles": "胸、三头",
+  "cue": "手扶横杠，身体成直线",
+  "legacy": [
+   "#6 × 10",
+   "#6 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU11",
+  "cn": "握铃俯卧撑",
+  "en": "Push-up on kettlebells / dumbbells",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "壶铃/哑铃",
+  "home": true,
+  "homeNote": "握哑铃把手",
+  "muscles": "胸、三头、腕稳定",
+  "cue": "握住壶铃/哑铃把手做俯卧撑，幅度更深",
+  "legacy": [
+   "#4 26 lb × 10",
+   "#79 17.5 lb哑铃"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPU12",
+  "cn": "悬挂带俯卧撑+收腹/提臀",
+  "en": "Suspension push-up + knee tuck / pike",
+  "cat": "HPU",
+  "catName": "上肢·水平推（胸）",
+  "size": "大",
+  "group": "胸",
+  "equip": "TRX悬挂带",
+  "home": true,
+  "homeNote": "TRX",
+  "muscles": "胸、核心",
+  "cue": "双脚套悬挂带，俯卧撑后收膝贴胸或屈髋提臀",
+  "legacy": [
+   "#52 俯卧撑+收膝 × 10",
+   "#72 俯卧撑+提臀 × 10",
+   "#81 俯卧撑+提臀 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "VPL01",
+  "cn": "辅助引体向上（宽/窄握）",
+  "en": "Assisted pull-up (wide / close grip)",
+  "cat": "VPL",
+  "catName": "上肢·垂直拉（背阔）",
+  "size": "大",
+  "group": "背",
+  "equip": "辅助引体器械",
+  "home": false,
+  "homeNote": "居家→VPL02 引体向上；做不满次数可跳起后5秒慢放（负离心）",
+  "muscles": "背阔、二头",
+  "cue": "档位10–12（越高越省力）；宽握=开肩，窄握=收肩",
+  "legacy": [
+   "#6 档位12 宽握 × 10",
+   "#6 档位12 窄握 × 12",
+   "#23 档位10 × 10",
+   "#46 档位12 宽握 × 10",
+   "#61 档位11 × 10",
+   "#74 档位10 × 10"
+  ],
+  "load": "level",
+  "inc": 5
+ },
+ {
+  "id": "VPL02",
+  "cn": "引体向上",
+  "en": "Pull-up (bodyweight)",
+  "cat": "VPL",
+  "catName": "上肢·垂直拉（背阔）",
+  "size": "大",
+  "group": "背",
+  "equip": "单杠",
+  "home": true,
+  "homeNote": "引体架",
+  "muscles": "背阔、二头",
+  "cue": "全幅度，下到手臂伸直",
+  "legacy": [
+   "#3 × 5",
+   "#80 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "VPL03",
+  "cn": "高位下拉",
+  "en": "Lat pulldown",
+  "cat": "VPL",
+  "catName": "上肢·垂直拉（背阔）",
+  "size": "大",
+  "group": "背",
+  "equip": "器械/绳索",
+  "home": false,
+  "homeNote": "居家→VPL02 引体向上",
+  "muscles": "背阔",
+  "cue": "挺胸，拉杆至锁骨",
+  "legacy": [
+   "#66 × 15",
+   "#C4"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL01",
+  "cn": "坐姿绳索划船",
+  "en": "Seated cable row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "绳索/器械",
+  "home": false,
+  "homeNote": "居家→HPL08 TRX划船 / HPL04 单臂哑铃划船",
+  "muscles": "中背、背阔、后束",
+  "cue": "直背，先收肩胛再屈肘；可做高位/低位拉",
+  "legacy": [
+   "#3 × 10",
+   "#25 100 lb×6 → 90×8 → 70×10 → 60×12",
+   "#C4 重 × 5；再高/低位轻 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL02",
+  "cn": "杠铃俯身划船（正握）",
+  "en": "Barbell bent-over row (overhand)",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "杠铃",
+  "home": true,
+  "homeNote": "杠铃",
+  "muscles": "中背、背阔",
+  "cue": "翘臀直腰，杠铃拉向肚脐",
+  "legacy": [
+   "#16 50 lb定重杠 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL03",
+  "cn": "杠铃反握划船",
+  "en": "Underhand barbell row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "杠铃",
+  "home": true,
+  "homeNote": "杠铃或曲杆",
+  "muscles": "背阔、二头",
+  "cue": "手心向上，挺胸立臀",
+  "legacy": [
+   "#60 35 lb × 8"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL04",
+  "cn": "单臂哑铃划船（扶架）",
+  "en": "Single-arm dumbbell row (supported)",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "一手一膝撑训练凳",
+  "muscles": "背阔、中背",
+  "cue": "一手扶架/凳，躯干平行地面",
+  "legacy": [
+   "#71 × 15/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL05",
+  "cn": "单臂器械/绳索划船",
+  "en": "Single-arm machine / cable row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "器械/绳索",
+  "home": false,
+  "homeNote": "居家→HPL04",
+  "muscles": "背阔、中背",
+  "cue": "单侧拉，同侧脚固定",
+  "legacy": [
+   "#58 70 lb × 10/侧",
+   "#C4 轻 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL06",
+  "cn": "上斜俯卧哑铃划船",
+  "en": "Chest-supported incline dumbbell row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "哑铃+可调凳",
+  "home": true,
+  "homeNote": "训练凳调上斜",
+  "muscles": "中背、后束",
+  "cue": "胸贴斜凳，手臂自然下垂后上拉",
+  "legacy": [
+   "#40 17.5 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL07",
+  "cn": "俯卧撑划船（叛逆者划船）",
+  "en": "Renegade row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "背、核心抗旋",
+  "cue": "双手握哑铃平板支撑，宽站距，交替划船",
+  "legacy": [
+   "#31 25 lb 宽站距 × 10",
+   "#49 25 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL08",
+  "cn": "悬挂带反向划船",
+  "en": "Suspension (TRX) inverted row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "TRX悬挂带",
+  "home": true,
+  "homeNote": "TRX 挂引体架",
+  "muscles": "中背、二头",
+  "cue": "身体斜站成直线，把胸拉向手；可单臂",
+  "legacy": [
+   "#42 × 15",
+   "#52 × 10",
+   "#72 单臂 × 10",
+   "#78 × 10",
+   "#81 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "HPL09",
+  "cn": "双绳高/中/低位拉",
+  "en": "Cable row – high, mid, low",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "绳索双滑轮",
+  "home": false,
+  "homeNote": "居家→HPL08 TRX划船（调整站位改变角度）",
+  "muscles": "背（不同角度）",
+  "cue": "三个高度各5次",
+  "legacy": [
+   "#C4 15 lb 高/中/低各 × 5"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "HPL10",
+  "cn": "宽站距壶铃交替划船",
+  "en": "Wide-stance kettlebell alternating row",
+  "cat": "HPL",
+  "catName": "上肢·水平拉（中背）",
+  "size": "大",
+  "group": "背",
+  "equip": "壶铃",
+  "home": true,
+  "homeNote": "用哑铃",
+  "muscles": "背、核心",
+  "cue": "马步俯身，壶铃点地后交替上拉",
+  "legacy": [
+   "#49 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "VPU01",
+  "cn": "杠铃站姿推举（军式推举）",
+  "en": "Barbell overhead / military press",
+  "cat": "VPU",
+  "catName": "肩·推举",
+  "size": "小",
+  "group": "肩",
+  "equip": "杠铃/定重杠",
+  "home": true,
+  "homeNote": "杠铃（需翻上肩）",
+  "muscles": "三角肌、三头",
+  "cue": "收腹夹臀，杠铃从锁骨推至头顶锁肘",
+  "legacy": [
+   "#2 空杆 45 lb",
+   "#16 30 lb定重杠 × 10",
+   "#23 50 lb × 10",
+   "#30 50 lb",
+   "#74 20 lb定重杠 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "VPU02",
+  "cn": "哑铃推举（坐/站）",
+  "en": "Dumbbell shoulder press",
+  "cat": "VPU",
+  "catName": "肩·推举",
+  "size": "小",
+  "group": "肩",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三角肌、三头",
+  "cue": "从胸平高度推至头顶",
+  "legacy": [
+   "#60 × 8",
+   "#61 35 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "VPU03",
+  "cn": "阿诺德推举",
+  "en": "Arnold press",
+  "cat": "VPU",
+  "catName": "肩·推举",
+  "size": "小",
+  "group": "肩",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三角肌（前/中束）",
+  "cue": "手心朝内起始，上推时旋转至手心朝前",
+  "legacy": [
+   "#70 20 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "VPU04",
+  "cn": "壶铃借力推举",
+  "en": "Kettlebell push press",
+  "cat": "VPU",
+  "catName": "肩·推举",
+  "size": "小",
+  "group": "肩",
+  "equip": "壶铃",
+  "home": true,
+  "homeNote": "用哑铃",
+  "muscles": "肩、腿",
+  "cue": "浅蹲后用腿部弹力把壶铃推过头",
+  "legacy": [
+   "#3 30 lb × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "VPU05",
+  "cn": "靠墙倒立走",
+  "en": "Wall walk",
+  "cat": "VPU",
+  "catName": "肩·推举",
+  "size": "小",
+  "group": "肩",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "肩、核心",
+  "cue": "俯卧撑位起，脚沿墙往上走、手往墙边走，再退回",
+  "legacy": [
+   "#64 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "SH01",
+  "cn": "前/侧平举（对侧静力）",
+  "en": "Front & lateral raise with contralateral iso-hold",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三角肌前/中束",
+  "cue": "一侧手臂平举保持不动，另一侧交替前平举、侧平举；再换边",
+  "legacy": [
+   "#12 15 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SH02",
+  "cn": "哑铃三段肩部组合（古巴推举式）",
+  "en": "Dumbbell Cuban-press complex",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三角肌、肩袖",
+  "cue": "① 上提至大臂与地面平行 ② 肘不动，前臂外旋至与地面平行 ③ 伸直手臂",
+  "legacy": [
+   "#11 15 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SH03",
+  "cn": "俯身反向飞鸟（海鸥）",
+  "en": "Bent-over reverse fly",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三角肌后束、中背",
+  "cue": "俯身，手臂微屈向两侧打开",
+  "legacy": [
+   "#70 12.5 lb × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SH04",
+  "cn": "杠铃/壶铃前平举",
+  "en": "Front raise (bar / KB)",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "定重杠/壶铃",
+  "home": true,
+  "homeNote": "杠铃片或哑铃",
+  "muscles": "三角肌前束",
+  "cue": "锁肘，抬至与肩齐平",
+  "legacy": [
+   "#40 25 lb定重杠 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SH06",
+  "cn": "悬挂带 Y/T 字飞",
+  "en": "Suspension Y/T raise",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "TRX悬挂带",
+  "home": true,
+  "homeNote": "TRX",
+  "muscles": "后束、中下斜方",
+  "cue": "身体斜站，直臂开肩拉成Y或T字",
+  "legacy": [
+   "#77 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "SH07",
+  "cn": "相扑哑铃高拉",
+  "en": "Sumo dumbbell high pull",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "斜方、肩、腿",
+  "cue": "马步站距，哑铃从两腿间拉至下巴",
+  "legacy": [
+   "#64 45 lb × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "SH09",
+  "cn": "弹力带手臂/肩部练习",
+  "en": "Band arm & shoulder work",
+  "cat": "SH",
+  "catName": "肩·孤立（前/侧/后束）",
+  "size": "小",
+  "group": "肩",
+  "equip": "弹力带",
+  "home": true,
+  "homeNote": "弹力圈",
+  "muscles": "肩、手臂",
+  "cue": "用弹力带收紧拉伸，练手臂和肩膀（推、拉、外展均可）",
+  "legacy": [
+   "#C5"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "BI01",
+  "cn": "交叉锤式弯举",
+  "en": "Cross-body hammer curl",
+  "cat": "BI",
+  "catName": "手臂·二头",
+  "size": "小",
+  "group": "二头",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "二头、肱桡肌",
+  "cue": "拳眼朝上，向对侧肩方向弯举",
+  "legacy": [
+   "#17 20 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "BI02",
+  "cn": "哑铃弯举（全幅度/锁肘）",
+  "en": "Dumbbell curl (full ROM, fixed elbow)",
+  "cat": "BI",
+  "catName": "手臂·二头",
+  "size": "小",
+  "group": "二头",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "二头",
+  "cue": "从手臂完全伸直开始，大臂不动",
+  "legacy": [
+   "#17 × 8",
+   "#C5 锁肘"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "BI03",
+  "cn": "二头递减往返组",
+  "en": "Biceps curl drop set (up & down)",
+  "cat": "BI",
+  "catName": "手臂·二头",
+  "size": "小",
+  "group": "二头",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "可调哑铃按档位做递减",
+  "muscles": "二头",
+  "cue": "15→12.5→10→12.5→15 lb 各10次，中间不休息",
+  "legacy": [
+   "#53 15→12.5→10→12.5→15 lb 各 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "BI04",
+  "cn": "绳索弯举",
+  "en": "Cable curl",
+  "cat": "BI",
+  "catName": "手臂·二头",
+  "size": "小",
+  "group": "二头",
+  "equip": "绳索",
+  "home": false,
+  "homeNote": "居家→曲杆弯举 / 弹力带弯举",
+  "muscles": "二头",
+  "cue": "",
+  "legacy": [
+   "#C5 站姿"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR01",
+  "cn": "仰卧臂屈伸（碎颅者）",
+  "en": "Skull crusher (lying triceps extension)",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "曲杆/定重杠",
+  "home": true,
+  "homeNote": "曲杆 + 训练凳",
+  "muscles": "三头",
+  "cue": "大臂垂直地面锁定，只动前臂",
+  "legacy": [
+   "#19 35 lb × 10",
+   "#71 15 lb定重杠 × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR02",
+  "cn": "仰卧过头臂屈伸",
+  "en": "Lying overhead triceps extension",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "曲杆/定重杠",
+  "home": true,
+  "homeNote": "曲杆 + 训练凳",
+  "muscles": "三头（长头）",
+  "cue": "杠铃下放至头后方，大臂固定",
+  "legacy": [
+   "#39 35 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR03",
+  "cn": "双杠臂屈伸",
+  "en": "Dips",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "双杠/辅助器",
+  "home": true,
+  "homeNote": "无双杠→训练凳上臂屈伸（凳上撑）",
+  "muscles": "三头、下胸",
+  "cue": "躯干直立偏三头",
+  "legacy": [
+   "#39 自重 × 6"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR04",
+  "cn": "坐姿哑铃颈后臂屈伸",
+  "en": "Seated overhead dumbbell extension",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三头（长头）",
+  "cue": "大臂贴耳，只动前臂",
+  "legacy": [
+   "#67 20 lb × 10",
+   "#C5 过头"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR05",
+  "cn": "哑铃俯身臂屈伸",
+  "en": "Dumbbell triceps kickback",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三头",
+  "cue": "大臂贴身固定，向后伸直",
+  "legacy": [
+   "#67 30 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR06",
+  "cn": "绳索下压",
+  "en": "Cable triceps pushdown",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "绳索",
+  "home": false,
+  "homeNote": "居家→TR04 / TR05",
+  "muscles": "三头",
+  "cue": "肘贴身体两侧",
+  "legacy": [
+   "#C5 站姿"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR07",
+  "cn": "单臂哑铃臂屈伸（由肩至直臂）",
+  "en": "Single-arm dumbbell extension",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "哑铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三头",
+  "cue": "原记录\"点肩直臂外甩手腕\"",
+  "legacy": [
+   "#39 25 lb × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "CO01",
+  "cn": "仰卧起坐（可负重/转体）",
+  "en": "Sit-up (weighted / with twist)",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重/杆/哑铃/药球",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌",
+  "cue": "负重可为：胸前抱哑铃、举杆、举药球；可加左右转体",
+  "legacy": [
+   "#4 举15 lb杆 × 15",
+   "#43 直背 × 15",
+   "#54 弹力带辅助，举8 lb球 × 10",
+   "#62 抱35 lb哑铃 + 左右转体 × 10",
+   "#80 × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "CO02",
+  "cn": "V字两头起",
+  "en": "V-up",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌",
+  "cue": "",
+  "legacy": [
+   "#20 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO03",
+  "cn": "跪姿健腹轮",
+  "en": "Ab wheel rollout (kneeling)",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "健腹轮",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌、核心抗伸展",
+  "cue": "弓背收腹前滑，腰不塌",
+  "legacy": [
+   "#20 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO04",
+  "cn": "悬挂带跪姿展腹",
+  "en": "Suspension kneeling fallout",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "TRX悬挂带",
+  "home": true,
+  "homeNote": "TRX",
+  "muscles": "核心抗伸展",
+  "cue": "跪地握悬挂带，身体前倾展开再拉回",
+  "legacy": [
+   "#13 × 15"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO05",
+  "cn": "悬挂带辅助起坐接拉",
+  "en": "Suspension-assisted sit-up to pull",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "TRX悬挂带",
+  "home": true,
+  "homeNote": "TRX",
+  "muscles": "腹、背",
+  "cue": "仰卧屈腿，拽悬挂带起坐并接拉",
+  "legacy": [
+   "#13 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO06",
+  "cn": "罗马椅举腿（直腿/屈膝）",
+  "en": "Captain's chair leg raise (straight / bent)",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "罗马椅",
+  "home": false,
+  "homeNote": "居家→CO07 引体架悬垂举腿",
+  "muscles": "下腹、髋屈肌",
+  "cue": "前臂撑住，直腿举至水平或屈膝贴胸",
+  "legacy": [
+   "#46 直腿 × 10",
+   "#46 屈膝贴胸 × 10",
+   "#64 屈膝 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO07",
+  "cn": "悬垂卷腹",
+  "en": "Hanging knee raise / crunch",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "单杠",
+  "home": true,
+  "homeNote": "引体架",
+  "muscles": "下腹",
+  "cue": "",
+  "legacy": [
+   "#31 × 10",
+   "#73 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO08",
+  "cn": "平板支撑（直臂）",
+  "en": "Plank (straight-arm)",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "核心",
+  "cue": "",
+  "legacy": [
+   "#63 1分钟",
+   "#80 1分钟"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "CO09",
+  "cn": "仰卧直腿够脚尖",
+  "en": "Lying toe-touch crunch",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌",
+  "cue": "双腿垂直上举，手够脚尖",
+  "legacy": [
+   "#27 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO10",
+  "cn": "仰卧直腿雨刷",
+  "en": "Lying windshield wiper",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹斜肌",
+  "cue": "",
+  "legacy": [
+   "#27 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO11",
+  "cn": "BOSU交叉手脚触碰",
+  "en": "BOSU cross-body toe touch",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "BOSU软半球",
+  "home": false,
+  "homeNote": "无BOSU→垫上做交叉触碰",
+  "muscles": "腹斜肌、平衡",
+  "cue": "坐BOSU，对侧手脚相碰",
+  "legacy": [
+   "#41 × 10/侧"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO12",
+  "cn": "固定下肢后仰（直臂上举）",
+  "en": "Anchored lean-back hold",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌、髋屈肌",
+  "cue": "固定臀/脚，上身后仰保持，双臂上举",
+  "legacy": [
+   "#41 保持"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "CO13",
+  "cn": "俄罗斯转体",
+  "en": "Russian twist",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重/药球",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹斜肌",
+  "cue": "",
+  "legacy": [
+   "#C6"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "CO14",
+  "cn": "45°卷腹",
+  "en": "45° crunch",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌",
+  "cue": "上身抬起约45°的卷腹",
+  "legacy": [
+   "#C6"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO15",
+  "cn": "抬腿仰卧起坐抛球",
+  "en": "Elevated-leg sit-up with med-ball toss",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "药球",
+  "home": false,
+  "homeNote": "无药球→CO01 抱哑铃仰卧起坐",
+  "muscles": "腹直肌",
+  "cue": "",
+  "legacy": [
+   "#79 12 lb球"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "CO16",
+  "cn": "坐姿持杆划桨转体",
+  "en": "Seated bar paddle twist",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "短杆",
+  "home": true,
+  "homeNote": "用杠铃杆或曲杆",
+  "muscles": "腹斜肌",
+  "cue": "",
+  "legacy": [
+   "#4 15 lb杆 × 10/侧"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "CO17",
+  "cn": "抬头看鞋卷腹",
+  "en": "\"Look at your sneakers\" crunch",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腹直肌",
+  "cue": "",
+  "legacy": [
+   "#C6"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "CO18",
+  "cn": "仰卧交替踢腿",
+  "en": "Flutter kick",
+  "cat": "CO",
+  "catName": "核心",
+  "size": "小",
+  "group": "核心",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "下腹、髋屈肌",
+  "cue": "仰卧，腰贴地，双腿伸直离地小幅交替上下踢",
+  "legacy": [
+   "#C6"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "PW01",
+  "cn": "波比跳",
+  "en": "Burpee",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "全身、心肺",
+  "cue": "",
+  "legacy": [
+   "#2 自重",
+   "#45 自重",
+   "#80 × 10"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "PW02",
+  "cn": "波比跳上箱",
+  "en": "Burpee box jump",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "箱",
+  "home": false,
+  "homeNote": "",
+  "muscles": "全身、心肺",
+  "cue": "胸贴地后起身跳上箱",
+  "legacy": [
+   "#30 自重"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW03",
+  "cn": "药球墙球",
+  "en": "Wall ball",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "药球",
+  "home": false,
+  "homeNote": "居家→PW05 哑铃深蹲推举",
+  "muscles": "腿、肩、心肺",
+  "cue": "深蹲后起身把球抛向墙上目标再接住",
+  "legacy": [
+   "#2 18 lb",
+   "#31 × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW04",
+  "cn": "药球砸地",
+  "en": "Med-ball slam",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "药球",
+  "home": false,
+  "homeNote": "居家→PW01 波比跳",
+  "muscles": "全身、核心",
+  "cue": "举过头用力砸地",
+  "legacy": [
+   "#45 药球",
+   "#50 12 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW05",
+  "cn": "深蹲推举（Thruster）",
+  "en": "Thruster (squat to press)",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "药球/哑铃/壶铃/杠铃",
+  "home": true,
+  "homeNote": "哑铃或杠铃",
+  "muscles": "腿、肩",
+  "cue": "深蹲起身时借力把重量推过头",
+  "legacy": [
+   "#43 45 lb空杆 × 10",
+   "#45 药球",
+   "#50 25 lb哑铃 × 10",
+   "#77 25 lb壶铃马步 × 10",
+   "#78 25 lb壶铃马步 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW06",
+  "cn": "深蹲跳",
+  "en": "Squat jump",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腿、爆发",
+  "cue": "",
+  "legacy": [
+   "#42 × 15",
+   "#55 × 15",
+   "#63 × 15"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "PW07",
+  "cn": "跳箱",
+  "en": "Box jump",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "箱",
+  "home": false,
+  "homeNote": "居家→PW06 深蹲跳",
+  "muscles": "腿、爆发",
+  "cue": "",
+  "legacy": [
+   "#77 矮箱 × 10",
+   "#78 高箱 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW08",
+  "cn": "战绳",
+  "en": "Battle ropes",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "战绳",
+  "home": false,
+  "homeNote": "居家→PW01 波比跳 / 星跳",
+  "muscles": "肩、心肺",
+  "cue": "",
+  "legacy": [
+   "#27 × 15",
+   "#79",
+   "#80 × 15"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW09",
+  "cn": "雪橇推/拉",
+  "en": "Sled push & drag",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "雪橇",
+  "home": false,
+  "homeNote": "",
+  "muscles": "腿、全身",
+  "cue": "直背推；后拉可用绑带倒退走",
+  "legacy": [
+   "#33 450 lb 推 + 倒退拉",
+   "#55 90 lb 推拉往返",
+   "#63 3片45 lb：交叉步推 + 绑带后拉",
+   "#C2 负重拖架前进+后退"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW10",
+  "cn": "地雷管深蹲推举",
+  "en": "Landmine squat to press",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "杠铃（单端）",
+  "home": false,
+  "homeNote": "",
+  "muscles": "腿、肩",
+  "cue": "",
+  "legacy": [
+   "#73 35 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW12",
+  "cn": "起坐站起跳",
+  "en": "Sit-up to stand & jump",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "毛巾/自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "全身、心肺",
+  "cue": "",
+  "legacy": [
+   "#57 × 40"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "PW13",
+  "cn": "俯卧撑+蛙跳低蹲行进",
+  "en": "Push-up + frog-hop low squat (traveling)",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "全身、心肺",
+  "cue": "俯卧撑后跳成低蹲马步，前进一段再接俯卧撑",
+  "legacy": [
+   "#29 1趟往返"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "PW14",
+  "cn": "星跳",
+  "en": "Star jump",
+  "cat": "PW",
+  "catName": "爆发/代谢（全身）",
+  "size": "—",
+  "group": "全身",
+  "equip": "自重",
+  "home": true,
+  "homeNote": "",
+  "muscles": "全身、心肺",
+  "cue": "",
+  "legacy": [
+   "#26 × 15",
+   "#48 × 15"
+  ],
+  "load": "bw",
+  "inc": 5
+ },
+ {
+  "id": "BL01",
+  "cn": "单腿站BOSU",
+  "en": "Single-leg balance on BOSU",
+  "cat": "BL",
+  "catName": "平衡/稳定/灵活",
+  "size": "—",
+  "group": "平衡",
+  "equip": "BOSU软半球",
+  "home": false,
+  "homeNote": "无BOSU→单腿站在折叠瑜伽垫上",
+  "muscles": "踝、平衡",
+  "cue": "20秒/侧",
+  "legacy": [
+   "#C2 20秒"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "BL02",
+  "cn": "单腿药球砸地",
+  "en": "Single-leg med-ball slam",
+  "cat": "BL",
+  "catName": "平衡/稳定/灵活",
+  "size": "—",
+  "group": "平衡",
+  "equip": "药球",
+  "home": false,
+  "homeNote": "",
+  "muscles": "平衡、核心",
+  "cue": "",
+  "legacy": [
+   "#C2 10 lb"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "BL03",
+  "cn": "肩扛悬挂负重杆高抬腿走",
+  "en": "High-knee walk with oscillating bar",
+  "cat": "BL",
+  "catName": "平衡/稳定/灵活",
+  "size": "—",
+  "group": "平衡",
+  "equip": "杠+弹力带挂重",
+  "home": false,
+  "homeNote": "",
+  "muscles": "核心稳定",
+  "cue": "杠两端用弹力带挂10 lb，前进/后退",
+  "legacy": [
+   "#C2 挂10 lb，前进+后退"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "BL04",
+  "cn": "站砖体前屈卷背",
+  "en": "Standing forward fold / Jefferson curl on blocks",
+  "cat": "BL",
+  "catName": "平衡/稳定/灵活",
+  "size": "—",
+  "group": "平衡",
+  "equip": "瑜伽砖",
+  "home": true,
+  "homeNote": "",
+  "muscles": "腿后侧、臀、下背（灵活性）",
+  "cue": "站两块砖上，直腿逐节卷背向下够脚尖",
+  "legacy": [
+   "#C2"
+  ],
+  "load": "sec",
+  "inc": 5
+ },
+ {
+  "id": "SQ13",
+  "cn": "手持杠铃深蹲",
+  "en": "Barbell hold squat (bar at arms' length)",
+  "cat": "SQ",
+  "catName": "下肢·蹲（膝主导）",
+  "size": "大",
+  "group": "腿",
+  "equip": "杠铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "股四头、臀、握力",
+  "cue": "双手持杠铃垂于身前，直背下蹲再站起",
+  "legacy": [
+   "#44 32 kg（≈70 lb）× 15"
+  ],
+  "load": "lb",
+  "inc": 10
+ },
+ {
+  "id": "VPU06",
+  "cn": "杠铃挺举",
+  "en": "Barbell jerk",
+  "cat": "VPU",
+  "catName": "肩·推举",
+  "size": "小",
+  "group": "肩",
+  "equip": "杠铃",
+  "home": true,
+  "homeNote": "",
+  "muscles": "肩、腿、全身爆发",
+  "cue": "杠铃架于锁骨，屈膝下沉后蹬腿把杠铃推过头锁肘",
+  "legacy": [
+   "#19 × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ },
+ {
+  "id": "TR09",
+  "cn": "上斜俯卧哑铃臂屈伸（固定肘）",
+  "en": "Chest-supported dumbbell kickback (fixed elbow)",
+  "cat": "TR",
+  "catName": "手臂·三头",
+  "size": "小",
+  "group": "三头",
+  "equip": "哑铃+可调凳",
+  "home": true,
+  "homeNote": "",
+  "muscles": "三头",
+  "cue": "胸贴斜凳，拳眼朝前，大臂固定，前臂向后伸直",
+  "legacy": [
+   "#40 17.5 lb × 10"
+  ],
+  "load": "lb",
+  "inc": 5
+ }
+]

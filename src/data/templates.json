@@ -1,0 +1,47 @@
+[
+ {"key":"gym-A","week":"A","loc":"gym","title":"腿 + 肩","items":[
+  {"ex":"SQ06","sets":4,"min":8,"max":10,"rest":120},
+  {"ex":"SQ08","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"HG01","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"VPU02","sets":3,"min":8,"max":10,"rest":60,"ss":"肩"},
+  {"ex":"SH01","sets":3,"min":10,"max":12,"rest":60,"ss":"肩"},
+  {"ex":"CO06","sets":2,"min":10,"max":15,"rest":45},
+  {"ex":"CO08","sets":2,"min":45,"max":60,"rest":45}]},
+ {"key":"gym-B","week":"B","loc":"gym","title":"背 + 二头","items":[
+  {"ex":"VPL01","sets":4,"min":8,"max":10,"rest":120},
+  {"ex":"HPL01","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"HPL05","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"BI04","sets":3,"min":10,"max":12,"rest":60,"ss":"二头"},
+  {"ex":"BI01","sets":3,"min":10,"max":12,"rest":60,"ss":"二头"},
+  {"ex":"CO03","sets":3,"min":8,"max":12,"rest":45},
+  {"ex":"CO13","sets":3,"min":12,"max":20,"rest":45}]},
+ {"key":"gym-C","week":"C","loc":"gym","title":"胸 + 三头","items":[
+  {"ex":"HPU03","sets":4,"min":6,"max":8,"rest":120},
+  {"ex":"HPU07","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"HPU01","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"TR06","sets":3,"min":10,"max":12,"rest":60,"ss":"三头"},
+  {"ex":"TR01","sets":3,"min":10,"max":12,"rest":60,"ss":"三头"},
+  {"ex":"CO01","sets":3,"min":12,"max":15,"rest":45},
+  {"ex":"CO11","sets":3,"min":10,"max":15,"rest":45}]},
+ {"key":"home-A","week":"A","loc":"home","title":"背 + 胸","items":[
+  {"ex":"VPL02","sets":4,"min":3,"max":10,"rest":120},
+  {"ex":"HPU04","sets":4,"min":10,"max":12,"rest":90},
+  {"ex":"HPL04","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"HPU05","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"HPL08","sets":3,"min":10,"max":15,"rest":60},
+  {"ex":"CO03","sets":3,"min":8,"max":12,"rest":45}]},
+ {"key":"home-B","week":"B","loc":"home","title":"胸 + 腿","items":[
+  {"ex":"HPU04","sets":4,"min":10,"max":12,"rest":90},
+  {"ex":"SL01","sets":3,"min":8,"max":12,"rest":90},
+  {"ex":"HG02","sets":3,"min":8,"max":10,"rest":90},
+  {"ex":"HPU06","sets":3,"min":10,"max":12,"rest":60},
+  {"ex":"HG06","sets":2,"min":15,"max":20,"rest":45},
+  {"ex":"CO04","sets":3,"min":8,"max":12,"rest":45}]},
+ {"key":"home-C","week":"C","loc":"home","title":"背 + 腿","items":[
+  {"ex":"VPL02","sets":4,"min":3,"max":10,"rest":120},
+  {"ex":"HG02","sets":4,"min":6,"max":8,"rest":120},
+  {"ex":"SL01","sets":3,"min":8,"max":12,"rest":90},
+  {"ex":"HPL06","sets":3,"min":10,"max":12,"rest":75},
+  {"ex":"HPL08","sets":3,"min":10,"max":15,"rest":60},
+  {"ex":"CO07","sets":3,"min":8,"max":12,"rest":45}]}
+]
