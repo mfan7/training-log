@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db, lastSetsFor, now, putSession, putSet, uid } from '../lib/db';
+import { db, lastSetsFor, now, putSession, putSet, today, uid } from '../lib/db';
 import { ex, WEEK_TITLE } from '../lib/data';
 import { formatSet, suggest } from '../lib/plan';
 import type { Exercise, Loc, PlanItem, Session, SetRow } from '../lib/types';
 import { ExerciseSheet } from './ExerciseSheet';
 import { Picker } from './Picker';
+import { SwipeRow } from './SwipeRow';
 
 type Rest = { end: number; total: number } | null;
 
@@ -19,10 +20,13 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
   const [rest, setRest] = useState<Rest>(null);
   const [picker, setPicker] = useState<{ mode: 'swap' | 'add'; index?: number } | null>(null);
   const [info, setInfo] = useState<string | null>(null);
+  const lastLog = useRef(0);
   useWakeLock();
 
   if (!session) return null;
   const plan = session.plan;
+  // A session entered after the fact (补录): set times follow the session's date, no rest timer.
+  const backfill = session.date < today() && Date.now() - Date.parse(session.started_at) > 6 * 3600e3;
   const doneOf = (id: string) => sets.filter((r) => r.exercise_id === id);
 
   function nextIndex(i: number, justLogged: number): number {
@@ -45,17 +49,21 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
   }
 
   async function log(i: number, weight: number | null, reps: number) {
+    if (Date.now() - lastLog.current < 1000) return; // double tap
+    lastLog.current = Date.now();
     const it = plan[i];
+    const doneAt = backfill ? new Date(Date.parse(session!.started_at) + (sets.length + 1) * 60e3).toISOString() : now();
     await putSet({
       id: uid(), session_id: sessionId, exercise_id: it.ex, set_no: doneOf(it.ex).length + 1,
-      weight, reps, rpe: null, done_at: now(), deleted: false,
+      weight, reps, rpe: null, done_at: doneAt, deleted: false,
     });
-    setRest({ end: Date.now() + it.rest * 1000, total: it.rest });
+    if (!backfill) setRest({ end: Date.now() + it.rest * 1000, total: it.rest });
     setOpen(nextIndex(i, 1));
   }
 
   async function finish() {
-    await putSession({ ...strip(session!), ended_at: now() });
+    const endedAt = session!.ended_at ?? (backfill ? sets[sets.length - 1]?.done_at ?? session!.started_at : now());
+    await putSession({ ...strip(session!), ended_at: endedAt });
     onClose();
   }
   async function discard() {
@@ -99,6 +107,7 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
           loc={session.loc}
           group={picker.index !== undefined ? ex(plan[picker.index].ex).group : undefined}
           title={picker.mode === 'swap' ? '换成其他动作' : '加一个动作'}
+          taken={new Set(plan.map((p) => p.ex))}
           onClose={() => setPicker(null)}
           onPick={async (id) => {
             if (picker.mode === 'swap' && picker.index !== undefined) {
@@ -126,10 +135,7 @@ function ItemCard(props: {
   const sg = useMemo(() => suggest(e, item, last ?? [], props.loc), [e, item, last, props.loc]);
   const finished = done.length >= item.sets;
 
-  async function removeSet(r: SetRow) {
-    if (!confirm(`删除第 ${r.set_no} 组（${formatSet(e, r)}）？`)) return;
-    await putSet({ ...r, deleted: true });
-  }
+  const removeSet = (r: SetRow) => putSet({ ...r, deleted: true });
 
   return (
     <section className={`card${finished ? ' done' : ''}`} data-g={e.group}>
@@ -150,11 +156,16 @@ function ItemCard(props: {
           </p>
           {last !== undefined && <SetLogger key={done.length} e={e} sg={sg} prev={done[done.length - 1]} setNo={done.length + 1} onLog={props.onLog} />}
           {done.length > 0 && (
-            <ul className="done-sets" aria-label="已完成的组">
-              {done.map((r) => (
-                <li key={r.id}><button onClick={() => removeSet(r)} title="点击删除">{formatSet(e, r)}</button></li>
-              ))}
-            </ul>
+            <>
+              <ul className="set-list" aria-label="已完成的组">
+                {done.map((r, k) => (
+                  <SwipeRow key={r.id} label={`第 ${k + 1} 组`} onDelete={() => removeSet(r)}>
+                    <span className="no">{k + 1}</span>{formatSet(e, r)}
+                  </SwipeRow>
+                ))}
+              </ul>
+              <p className="swipe-hint">左滑一组可以删除</p>
+            </>
           )}
           <div className="card-actions">
             <button onClick={props.onSwap}>换动作</button>

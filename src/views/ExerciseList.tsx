@@ -3,8 +3,10 @@ import { EXERCISES, GROUP_ORDER } from '../lib/data';
 import type { Exercise } from '../lib/types';
 
 /** Search + group filter + home-only toggle, shared by the library and the picker. */
-export function ExerciseList({ initialGroup, homeOnly: initialHome = false, onSelect }: {
+export function ExerciseList({ initialGroup, homeOnly: initialHome = false, taken, onSelect }: {
   initialGroup?: string; homeOnly?: boolean; onSelect: (e: Exercise) => void;
+  /** exercises already in the workout: shown but not selectable */
+  taken?: Set<string>;
 }) {
   const [q, setQ] = useState('');
   const [group, setGroup] = useState<string | undefined>(initialGroup);
@@ -35,13 +37,13 @@ export function ExerciseList({ initialGroup, homeOnly: initialHome = false, onSe
       <ul className="list">
         {items.map((e) => (
           <li key={e.id} data-g={e.group}>
-            <button className="row-btn" onClick={() => onSelect(e)}>
+            <button className="row-btn" onClick={() => onSelect(e)} disabled={taken?.has(e.id)}>
               <span className="mark" aria-hidden style={{ marginTop: 5 }} />
               <span className="body" style={{ flex: 1 }}>
                 <span className="name" style={{ display: 'block', fontWeight: 600 }}>{e.cn}</span>
                 <span className="en" style={{ display: 'block', color: 'var(--muted)', fontSize: 13 }}>{e.en}</span>
               </span>
-              <span className="tag">{e.home ? '可在家' : e.equip}</span>
+              <span className="tag">{taken?.has(e.id) ? '已在计划中' : e.home ? '可在家' : e.equip}</span>
             </button>
           </li>
         ))}

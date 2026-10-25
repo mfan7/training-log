@@ -149,11 +149,21 @@ button { cursor: pointer; }
 }
 .logger .btn { grid-column: span 2; }
 
-.done-sets { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.done-sets button {
-  border: 1px solid var(--line); background: var(--raised); border-radius: 8px; padding: 4px 10px;
-  font-family: var(--num); font-size: 17px; font-weight: 600;
+/* logged sets: swipe left to delete */
+.set-list { list-style: none; padding: 0; margin: 12px 0 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+.swipe { position: relative; overflow: hidden; }
+.swipe + .swipe { border-top: 1px solid var(--line); }
+.swipe-del {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 84px; border: 0;
+  background: var(--action); color: var(--action-ink); font-weight: 600; font-size: 15px;
 }
+.swipe-body {
+  position: relative; background: var(--raised); padding: 10px 12px; display: flex; align-items: baseline; gap: 12px;
+  font-family: var(--num); font-size: 19px; font-weight: 600; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  transition: transform .18s ease-out;
+}
+.swipe-body .no { color: var(--muted); font-size: 15px; min-width: 1.2em; }
+.swipe-hint { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
 .card-actions { display: flex; gap: 8px; margin-top: 12px; }
 .card-actions button { flex: 1; border: 1px solid var(--line); background: none; border-radius: 10px; padding: 9px; font-size: 14px; }
 
@@ -193,6 +203,7 @@ button { cursor: pointer; }
 .toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); margin: 4px 0 8px; }
 .row-btn { all: unset; display: flex; gap: 12px; width: 100%; padding: 12px 0; cursor: pointer; }
 .row-btn:focus-visible { outline: 3px solid var(--back); }
+.row-btn:disabled { opacity: .45; cursor: default; }
 .tag { font-size: 12px; color: var(--muted); }
 
 /* ---------- settings ---------- */
@@ -205,3 +216,28 @@ button { cursor: pointer; }
 
 .card .name { font-weight: 600; }
 .card .en { color: var(--muted); font-size: 13px; }
+
+/* ---------- history ---------- */
+.tap { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; }
+.chev { color: var(--muted); font-size: 22px; line-height: 1; align-self: center; }
+.backfill { margin-top: 10px; }
+.backfill label span { display: block; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+.row2 { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; margin-top: 10px; }
+
+.backbar { padding: 12px 0 0; }
+.backbar button { border: 0; background: none; color: var(--muted); font-size: 16px; padding: 4px 0; }
+.detail-head h1 { font-family: var(--num); font-size: 34px; margin: 4px 0 0; }
+.detail-head p { color: var(--muted); margin: 0 0 14px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 16px; }
+.stats div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.stats dt { font-size: 13px; color: var(--muted); }
+.stats dd { margin: 0; font-family: var(--num); font-weight: 700; font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stats small { font-size: 14px; font-weight: 600; color: var(--muted); }
+.card.detail { padding-bottom: 12px; }
+.card.detail .set-list { margin: 0 14px; }
+.vol { text-align: right; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.vol b { font-family: var(--num); font-size: 20px; color: var(--ink); }
+.vol span { display: block; font-weight: 600; }
+.vol .up { color: var(--arms); }
+.vol .down { color: var(--action); }
+.prev { font-size: 13px; color: var(--muted); margin: 8px 14px 0; }

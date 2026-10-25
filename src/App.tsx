@@ -6,6 +6,7 @@ import { Today } from './views/Today';
 import { Workout } from './views/Workout';
 import { Library } from './views/Library';
 import { Settings } from './views/Settings';
+import { SessionDetail } from './views/SessionDetail';
 
 type Tab = 'today' | 'library' | 'settings';
 
@@ -22,6 +23,7 @@ const SYNC_LABEL: Record<SyncState['status'], string> = {
 export function App() {
   const [tab, setTab] = useState<Tab>('today');
   const [openId, setOpenId] = useState<string | null>(null);
+  const [detailId, setDetailId] = useState<string | null>(null);
   const sync = useSync();
   const active = useLiveQuery(() => db.sessions.filter((s) => !s.deleted && !s.ended_at).first(), []);
 
@@ -34,6 +36,9 @@ export function App() {
   if (openId) {
     return <div className="app"><Workout sessionId={openId} onClose={() => { setOpenId(null); setTab('today'); }} /></div>;
   }
+  if (detailId) {
+    return <div className="app"><SessionDetail id={detailId} onBack={() => setDetailId(null)} onEdit={setOpenId} /></div>;
+  }
 
   return (
     <div className="app">
@@ -43,7 +48,7 @@ export function App() {
           <i aria-hidden />{SYNC_LABEL[sync.status]}{pending > 0 && sync.status !== 'idle' && sync.status !== 'off' ? `（${pending} 条待上传）` : ''}
         </button>
       </header>
-      {tab === 'today' && <Today onOpen={setOpenId} />}
+      {tab === 'today' && <Today onOpen={setOpenId} onDetail={setDetailId} />}
       {tab === 'library' && <Library />}
       {tab === 'settings' && <Settings sync={sync} pending={pending} />}
       <div className="tabs">
