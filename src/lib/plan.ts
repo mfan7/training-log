@@ -1,23 +1,34 @@
-import type { Exercise, Loc, PlanItem, Session, SetRow, Week } from './types';
-
-const NEXT: Record<Week, Week> = { A: 'B', B: 'C', C: 'A' };
+import type { Exercise, Loc, PlanItem, SetRow, Session, Template } from './types';
+import { sessionTemplateId } from './data';
 
 /** Monday-based week key, local time. */
-function weekKey(d: Date): string {
+export function weekKey(d: Date): string {
   const m = new Date(d.getFullYear(), d.getMonth(), d.getDate());
   m.setDate(m.getDate() - ((m.getDay() + 6) % 7));
   return `${m.getFullYear()}-${m.getMonth()}-${m.getDate()}`;
 }
 
+/** Plans of one location that take turns, in rotation order. */
+export const rotationOf = (templates: Template[], loc: Loc) =>
+  templates.filter((t) => !t.deleted && t.rotation && t.loc === loc).sort((a, b) => a.position - b.position);
+
 /**
- * Rotation: stay on the last session's week while still in the same calendar week,
- * otherwise move to the next letter. Missed weeks don't skip letters.
+ * Rotation: stay on the last session's slot while still in the same calendar week, otherwise move to
+ * the next slot. Gym and home share the slot number, so the home plan matches this week's gym plan.
+ * Missed weeks don't skip a slot. Returns the suggested plan for `loc`, if it has any in rotation.
  */
-export function currentWeek(sessions: Session[], at = new Date()): Week {
+export function suggestTemplate(sessions: Session[], templates: Template[], loc: Loc, at = new Date()): Template | undefined {
+  const rot = rotationOf(templates, loc);
+  if (!rot.length) return undefined;
   const done = sessions.filter((s) => !s.deleted).sort((a, b) => b.started_at.localeCompare(a.started_at));
-  if (!done.length) return 'A';
-  const last = done[0];
-  return weekKey(new Date(last.started_at)) === weekKey(at) ? last.week : NEXT[last.week];
+  for (const last of done) {
+    const tid = sessionTemplateId(last);
+    const slot = rotationOf(templates, last.loc).findIndex((t) => t.id === tid);
+    if (slot < 0) continue; // a plan outside the rotation doesn't move it
+    const next = weekKey(new Date(last.started_at)) === weekKey(at) ? slot : slot + 1;
+    return rot[next % rot.length];
+  }
+  return rot[0];
 }
 
 export const HOME_DB_MAX = 45; // adjustable dumbbells, lb each

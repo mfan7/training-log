@@ -2,7 +2,9 @@
 
 A phone-first workout logger for a weekly gym session plus a home session, on a 3-week A/B/C rotation.
 
-- **今天**: works out which rotation week you're in, shows the plan for gym or home, with a suggested weight for every exercise (double progression).
+- **今天**: suggests this week's plan from your rotation (pick any other plan from the 本周重点 dropdown), with a suggested weight for every exercise (double progression).
+- **计划**: create, edit, reorder and delete plans in the app; add your own exercises from the library or while picking one.
+- **历史**: tap a past session to see every set, volume (lb × reps) and the change from last time; 补录 enters a past workout.
 - **记录**: big steppers for weight and reps, one tap per set, automatic rest timer, swap or add exercises.
 - **动作库**: 119 exercises with Chinese/English names, cues, home substitutes, and the old trainer-session history.
 - **同步**: every set is saved on the phone first (works with no signal), then synced to Supabase when online. CSV export in 设置.
@@ -12,7 +14,7 @@ Stack: Vite + React + TypeScript, Dexie (IndexedDB), Supabase (Postgres + magic-
 ```
 data/training_dictionary_v2.xlsx   source spreadsheet (edit this)
 scripts/build_data.py              xlsx → src/data/exercises.json, validates templates
-src/data/templates.json            the six session templates (A/B/C × gym/home)
+src/data/templates.json            the six starting plans (A/B/C × gym/home); edit plans in the app
 src/lib/                           storage, sync, rotation and progression logic
 src/views/                         screens
 supabase/schema.sql                tables + row level security
@@ -56,9 +58,15 @@ npm run dev
 npm run typecheck
 ```
 
-### Editing exercises or templates
+### Updating the database after an app update
 
-Edit `data/training_dictionary_v2.xlsx` (sheet 动作库 Exercises) or `src/data/templates.json`, then:
+`supabase/schema.sql` is safe to re-run. When an update changes it, paste the whole file into **SQL Editor** again and **Run**. Until then, sync shows an error, but nothing is lost: records stay on the phone and upload once the schema is current.
+
+### Editing exercises or plans
+
+Plans and your own exercises are edited in the app (今天 → 管理计划, and 动作库 → 新建动作). They sync like your workouts.
+
+To change the built-in exercise library or the six starting plans, edit `data/training_dictionary_v2.xlsx` (sheet 动作库 Exercises) or `src/data/templates.json`, then:
 
 ```bash
 pip install openpyxl
@@ -73,4 +81,4 @@ Each template item has a rep range (e.g. 8–10). If every set last time reached
 
 ## Rotation
 
-The app stays on the last session's letter during the same Monday–Sunday week and moves to the next letter in a new week. Missed weeks don't skip a letter. You can override the week on the 今天 screen.
+Plans in the rotation get letters A, B, C… in the order set under 管理计划. The app stays on the last session's letter during the same Monday–Sunday week and moves to the next letter in a new week; gym and home share the letter. Missed weeks don't skip a letter. Plans outside the rotation, or a different plan picked in 本周重点, don't move it.

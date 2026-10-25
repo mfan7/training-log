@@ -7,6 +7,10 @@ import { Workout } from './views/Workout';
 import { Library } from './views/Library';
 import { Settings } from './views/Settings';
 import { SessionDetail } from './views/SessionDetail';
+import { PlanEditor } from './views/PlanEditor';
+import { Plans } from './views/Plans';
+import { setCustomExercises } from './lib/data';
+import type { Loc } from './lib/types';
 
 type Tab = 'today' | 'library' | 'settings';
 
@@ -24,6 +28,10 @@ export function App() {
   const [tab, setTab] = useState<Tab>('today');
   const [openId, setOpenId] = useState<string | null>(null);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [editPlan, setEditPlan] = useState<{ id: string | 'new'; loc: Loc } | null>(null);
+  const [plans, setPlans] = useState(false);
+  const custom = useLiveQuery(() => db.exercises.toArray(), []);
+  if (custom) setCustomExercises(custom); // before any child looks exercises up
   const sync = useSync();
   const active = useLiveQuery(() => db.sessions.filter((s) => !s.deleted && !s.ended_at).first(), []);
 
@@ -35,6 +43,12 @@ export function App() {
 
   if (openId) {
     return <div className="app"><Workout sessionId={openId} onClose={() => { setOpenId(null); setTab('today'); }} /></div>;
+  }
+  if (editPlan) {
+    return <div className="app"><PlanEditor key={editPlan.id} id={editPlan.id} loc={editPlan.loc} onDone={() => setEditPlan(null)} /></div>;
+  }
+  if (plans) {
+    return <div className="app"><Plans onBack={() => setPlans(false)} onEdit={(id, loc) => setEditPlan({ id, loc })} /></div>;
   }
   if (detailId) {
     return <div className="app"><SessionDetail id={detailId} onBack={() => setDetailId(null)} onEdit={setOpenId} /></div>;
@@ -48,7 +62,9 @@ export function App() {
           <i aria-hidden />{SYNC_LABEL[sync.status]}{pending > 0 && sync.status !== 'idle' && sync.status !== 'off' ? `（${pending} 条待上传）` : ''}
         </button>
       </header>
-      {tab === 'today' && <Today onOpen={setOpenId} onDetail={setDetailId} />}
+      {tab === 'today' && (
+        <Today onOpen={setOpenId} onDetail={setDetailId} onEditPlan={(id, loc) => setEditPlan({ id, loc })} onPlans={() => setPlans(true)} />
+      )}
       {tab === 'library' && <Library />}
       {tab === 'settings' && <Settings sync={sync} pending={pending} />}
       <div className="tabs">

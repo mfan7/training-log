@@ -1,4 +1,3 @@
-export type Week = 'A' | 'B' | 'C';
 export type Loc = 'gym' | 'home';
 /** lb = weight in pounds (0 = bodyweight), level = assist level, bw = bodyweight (weight optional), sec = seconds held */
 export type Load = 'lb' | 'level' | 'bw' | 'sec';
@@ -9,6 +8,13 @@ export interface Exercise {
   equip: string; home: boolean; homeNote: string;
   muscles: string; cue: string; legacy: string[];
   load: Load; inc: number;
+  /** true for exercises the user added in the app */
+  custom?: boolean;
+}
+
+/** A user-added exercise as stored locally. Synced to Supabase as { id, data, deleted }. */
+export interface CustomExercise extends Exercise {
+  deleted: boolean; updated_at: string; dirty: 0 | 1;
 }
 
 export interface PlanItem {
@@ -17,10 +23,21 @@ export interface PlanItem {
   ss?: string;
 }
 
-export interface Template { key: string; week: Week; loc: Loc; title: string; items: PlanItem[] }
+/** One of the six plans shipped in src/data/templates.json. */
+export interface SeedTemplate { key: string; week: string; loc: Loc; title: string; items: PlanItem[] }
+
+/** A workout plan. Plans with `rotation` set take turns week by week, in `position` order. */
+export interface Template {
+  id: string; name: string; loc: Loc; items: PlanItem[];
+  position: number; rotation: boolean;
+  deleted: boolean; updated_at: string; dirty: 0 | 1;
+}
 
 export interface Session {
-  id: string; date: string; week: Week; loc: Loc; plan: PlanItem[];
+  /** `week` is the plan's rotation letter when the session started (A, B, C…), or '-' outside the rotation */
+  id: string; date: string; week: string; loc: Loc; plan: PlanItem[];
+  /** null for sessions logged before plans became editable */
+  template_id: string | null; title: string;
   started_at: string; ended_at: string | null; notes: string;
   deleted: boolean; updated_at: string;
   /** 1 = has local changes not yet pushed to Supabase */

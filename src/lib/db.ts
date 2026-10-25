@@ -1,11 +1,14 @@
 import Dexie, { type Table } from 'dexie';
-import type { Session, SetRow } from './types';
+import type { CustomExercise, Session, SetRow, Template } from './types';
 import { requestSync } from './sync';
+import { seedTemplates } from './data';
 
 class TrainingDB extends Dexie {
   sessions!: Table<Session, string>;
   sets!: Table<SetRow, string>;
   meta!: Table<{ k: string; v: unknown }, string>;
+  templates!: Table<Template, string>;
+  exercises!: Table<CustomExercise, string>;
 
   constructor() {
     super('training-log');
@@ -13,6 +16,10 @@ class TrainingDB extends Dexie {
       sessions: 'id, date, started_at, dirty',
       sets: 'id, session_id, exercise_id, done_at, dirty',
       meta: 'k',
+    });
+    this.version(2).stores({
+      templates: 'id, dirty',
+      exercises: 'id, dirty',
     });
   }
 }
@@ -33,6 +40,23 @@ export async function putSession(s: Omit<Session, 'updated_at' | 'dirty'>) {
 export async function putSet(r: Omit<SetRow, 'updated_at' | 'dirty'>) {
   await db.sets.put({ ...r, updated_at: now(), dirty: 1 });
   requestSync();
+}
+
+export async function putTemplate(t: Omit<Template, 'updated_at' | 'dirty'>) {
+  await db.templates.put({ ...t, updated_at: now(), dirty: 1 });
+  requestSync();
+}
+
+export async function putExercise(e: Omit<CustomExercise, 'updated_at' | 'dirty'>) {
+  await db.exercises.put({ ...e, updated_at: now(), dirty: 1 });
+  requestSync();
+}
+
+/** Add the shipped plans on a device that has never had them. Edited or deleted ones are left alone. */
+export async function ensureSeeds() {
+  await db.transaction('rw', db.templates, async () => {
+    for (const t of seedTemplates()) if (!(await db.templates.get(t.id))) await db.templates.put(t);
+  });
 }
 
 export async function getMeta<T>(k: string, fallback: T): Promise<T> {

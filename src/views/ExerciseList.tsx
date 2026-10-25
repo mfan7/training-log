@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react';
-import { EXERCISES, GROUP_ORDER } from '../lib/data';
+import { useState } from 'react';
+import { allExercises, GROUP_ORDER } from '../lib/data';
 import type { Exercise } from '../lib/types';
 
 /** Search + group filter + home-only toggle, shared by the library and the picker. */
-export function ExerciseList({ initialGroup, homeOnly: initialHome = false, taken, onSelect }: {
+export function ExerciseList({ initialGroup, homeOnly: initialHome = false, taken, onSelect, onCreate }: {
   initialGroup?: string; homeOnly?: boolean; onSelect: (e: Exercise) => void;
+  /** shows a "new exercise" button; gets the current search text as a starting name */
+  onCreate?: (name: string) => void;
   /** exercises already in the workout: shown but not selectable */
   taken?: Set<string>;
 }) {
@@ -12,13 +14,12 @@ export function ExerciseList({ initialGroup, homeOnly: initialHome = false, take
   const [group, setGroup] = useState<string | undefined>(initialGroup);
   const [homeOnly, setHomeOnly] = useState(initialHome);
 
-  const items = useMemo(() => {
-    const s = q.trim().toLowerCase();
-    return EXERCISES.filter((e) =>
-      (!group || e.group === group) && (!homeOnly || e.home) &&
-      (!s || e.cn.includes(s) || e.en.toLowerCase().includes(s) || e.id.toLowerCase().includes(s) || e.muscles.includes(s)),
-    );
-  }, [q, group, homeOnly]);
+  // not memoised: custom exercises can change underneath, and filtering ~120 rows is cheap
+  const s = q.trim().toLowerCase();
+  const items = allExercises().filter((e) =>
+    (!group || e.group === group) && (!homeOnly || e.home) &&
+    (!s || e.cn.includes(s) || e.en.toLowerCase().includes(s) || e.id.toLowerCase().includes(s) || e.muscles.includes(s)),
+  );
 
   return (
     <>
@@ -34,6 +35,11 @@ export function ExerciseList({ initialGroup, homeOnly: initialHome = false, take
       <label className="toggle">
         <input type="checkbox" checked={homeOnly} onChange={(e) => setHomeOnly(e.target.checked)} /> 只看在家能做的
       </label>
+      {onCreate && (
+        <button className="btn ghost small-full" onClick={() => onCreate(q.trim())}>
+          ＋ 新建动作{q.trim() ? `「${q.trim()}」` : ''}
+        </button>
+      )}
       <ul className="list">
         {items.map((e) => (
           <li key={e.id} data-g={e.group}>
@@ -43,7 +49,7 @@ export function ExerciseList({ initialGroup, homeOnly: initialHome = false, take
                 <span className="name" style={{ display: 'block', fontWeight: 600 }}>{e.cn}</span>
                 <span className="en" style={{ display: 'block', color: 'var(--muted)', fontSize: 13 }}>{e.en}</span>
               </span>
-              <span className="tag">{taken?.has(e.id) ? '已在计划中' : e.home ? '可在家' : e.equip}</span>
+              <span className="tag">{taken?.has(e.id) ? '已在计划中' : e.custom ? '自定义' : e.home ? '可在家' : e.equip}</span>
             </button>
           </li>
         ))}

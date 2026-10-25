@@ -1,27 +1,38 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, lastSetsFor, putSession, today, uid, now } from '../lib/db';
-import { ex, template, WEEK_TITLE } from '../lib/data';
-import { currentWeek, suggest } from '../lib/plan';
-import type { Loc, SetRow, Week } from '../lib/types';
+import { ex, letter, LOC_LABEL, sessionLabel, sessionTitle } from '../lib/data';
+import { rotationOf, suggest, suggestTemplate, weekKey } from '../lib/plan';
+import type { Loc, SetRow } from '../lib/types';
 
-const LOC_LABEL: Record<Loc, string> = { gym: '健身房', home: '居家' };
+// Survives leaving 今天 for the plan editor or a workout, until the app is closed.
+const remembered: { loc: Loc; picked: string | null } = { loc: 'gym', picked: null };
 
-export function Today({ onOpen, onDetail }: { onOpen: (id: string) => void; onDetail: (id: string) => void }) {
+export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
+  onOpen: (id: string) => void; onDetail: (id: string) => void;
+  onEditPlan: (id: string | 'new', loc: Loc) => void; onPlans: () => void;
+}) {
   const sessions = useLiveQuery(() => db.sessions.toArray(), []) ?? [];
-  const auto = currentWeek(sessions);
-  const [picked, setPicked] = useState<Week | null>(null);
-  const week = picked ?? auto;
-  const [loc, setLoc] = useState<Loc>('gym');
+  const templates = useLiveQuery(() => db.templates.filter((t) => !t.deleted).toArray(), []);
+  const [loc, setLocState] = useState<Loc>(remembered.loc);
+  const [picked, setPickedState] = useState<string | null>(remembered.picked);
+  const setPicked = (id: string | null) => { remembered.picked = id; setPickedState(id); };
   const [showAll, setShowAll] = useState(false);
   const [pastDate, setPastDate] = useState<string | null>(null);
-  const t = template(week, loc);
+  const setLoc = (l: Loc) => { remembered.loc = l; setLocState(l); setPicked(null); };
+
+  const all = templates ?? [];
+  const rot = rotationOf(all, loc);
+  const others = all.filter((t) => t.loc === loc && !t.rotation).sort((a, b) => a.name.localeCompare(b.name, 'zh'));
+  const auto = suggestTemplate(sessions, all, loc);
+  const t = all.find((x) => x.id === picked && x.loc === loc) ?? auto ?? others[0];
+  const slot = t ? rot.findIndex((x) => x.id === t.id) : -1;
 
   const last = useLiveQuery(async () => {
     const out: Record<string, SetRow[]> = {};
-    for (const it of t.items) out[it.ex] = await lastSetsFor(it.ex);
+    for (const it of t?.items ?? []) out[it.ex] = await lastSetsFor(it.ex);
     return out;
-  }, [t.key]) ?? {};
+  }, [t?.id, t?.updated_at]) ?? {};
 
   const recent = useLiveQuery(async () => {
     const done = (await db.sessions.toArray()).filter((s) => !s.deleted && s.ended_at)
@@ -32,77 +43,106 @@ export function Today({ onOpen, onDetail }: { onOpen: (id: string) => void; onDe
   }, []) ?? [];
   const shown = showAll ? recent : recent.slice(0, 6);
 
-  const thisWeekDone = sessions.filter((s) => !s.deleted && s.week === week && s.ended_at && Date.now() - Date.parse(s.started_at) < 7 * 864e5);
-  const doneGym = thisWeekDone.some((s) => s.loc === 'gym');
-  const doneHome = thisWeekDone.some((s) => s.loc === 'home');
+  const thisWeek = sessions.filter((s) => !s.deleted && s.ended_at && weekKey(new Date(s.started_at)) === weekKey(new Date()));
+  const doneGym = thisWeek.some((s) => s.loc === 'gym');
+  const doneHome = thisWeek.some((s) => s.loc === 'home');
 
   /** `date` set = entering a past workout (补录); it is placed at noon that day. */
   async function start(date?: string) {
+    if (!t) return;
     const id = uid();
     const startedAt = date ? new Date(`${date}T12:00:00`).toISOString() : now();
-    await putSession({ id, date: date ?? today(), week, loc, plan: t.items, started_at: startedAt, ended_at: null, notes: '', deleted: false });
+    await putSession({
+      id, date: date ?? today(), week: letter(slot), loc, plan: t.items, template_id: t.id, title: t.name,
+      started_at: startedAt, ended_at: null, notes: '', deleted: false,
+    });
     onOpen(id);
   }
   const yesterday = (() => { const d = new Date(); d.setDate(d.getDate() - 1); return d.toLocaleDateString('sv'); })();
 
+  if (!templates) return null;
+
   return (
     <>
       <section className="hero" aria-label="本周">
-        <div className="letter">{week}</div>
-        <div className="title">{WEEK_TITLE[week]}</div>
+        <div className="letter">{t ? letter(slot) : '–'}</div>
+        <div className="title">{t?.name ?? `还没有${LOC_LABEL[loc]}计划`}</div>
         <div className="sub">
-          {picked && picked !== auto ? `按轮转应为 ${auto} 周` : `本周健身房${doneGym ? '已练' : '未练'}，居家${doneHome ? '已练' : '未练'}`}
+          {auto && t && t.id !== auto.id
+            ? `按轮转应为 ${letter(rot.indexOf(auto))} ${auto.name}`
+            : `本周健身房${doneGym ? '已练' : '未练'}，居家${doneHome ? '已练' : '未练'}`}
         </div>
       </section>
 
-      <div className="controls">
-        <div className="seg" role="group" aria-label="地点">
-          {(['gym', 'home'] as Loc[]).map((l) => (
-            <button key={l} aria-pressed={loc === l} onClick={() => setLoc(l)}>{LOC_LABEL[l]}</button>
-          ))}
-        </div>
-        <div className="seg" role="group" aria-label="轮转周">
-          {(['A', 'B', 'C'] as Week[]).map((w) => (
-            <button key={w} aria-pressed={week === w} onClick={() => setPicked(w === auto ? null : w)}>{w}</button>
-          ))}
-        </div>
+      <div className="seg loc-seg" role="group" aria-label="地点">
+        {(['gym', 'home'] as Loc[]).map((l) => (
+          <button key={l} aria-pressed={loc === l} onClick={() => setLoc(l)}>{LOC_LABEL[l]}</button>
+        ))}
       </div>
 
-      <p className="hint">{loc === "home" ? "居家练健身房这周没练到的两个大肌群。" : "大重量和器械动作放在健身房做。"}</p>
-      <ul className="list">
-        {t.items.map((it) => {
-          const e = ex(it.ex);
-          const sg = suggest(e, it, last[it.ex] ?? [], loc);
-          return (
-            <li className="row" key={it.ex} data-g={e.group}>
-              <span className="mark" aria-hidden />
-              <div className="body">
-                <div className="name">{e.cn}{it.ss && <span className="ss">超级组</span>}</div>
-                <div className="note">{sg.note}</div>
+      <div className="focus">
+        <label htmlFor="focus">本周重点</label>
+        <div className="focus-row">
+          <select id="focus" className="field" value={t?.id ?? ''} onChange={(e) => setPicked(e.target.value)} disabled={!t}>
+            {rot.map((x, i) => (
+              <option key={x.id} value={x.id}>{letter(i)} · {x.name}{auto?.id === x.id ? '（轮转）' : ''}</option>
+            ))}
+            {others.length > 0 && (
+              <optgroup label="不在轮转里">
+                {others.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}
+              </optgroup>
+            )}
+          </select>
+          {t && <button className="btn ghost small" onClick={() => onEditPlan(t.id, loc)}>编辑</button>}
+        </div>
+        <button className="link" onClick={onPlans}>管理计划（新建、排序、删除）</button>
+      </div>
+
+      {!t && (
+        <div className="section">
+          <button className="btn" onClick={() => onEditPlan('new', loc)}>新建{LOC_LABEL[loc]}计划</button>
+        </div>
+      )}
+
+      {t && (
+        <>
+          {t.items.length === 0 && <p className="empty">这个计划还没有动作，点「编辑」添加。</p>}
+          <ul className="list">
+            {t.items.map((it, i) => {
+              const e = ex(it.ex);
+              const sg = suggest(e, it, last[it.ex] ?? [], loc);
+              return (
+                <li className="row" key={`${it.ex}-${i}`} data-g={e.group}>
+                  <span className="mark" aria-hidden />
+                  <div className="body">
+                    <div className="name">{e.cn}{it.ss && <span className="ss">超级组</span>}</div>
+                    <div className="note">{sg.note}</div>
+                  </div>
+                  <div className="dose">{it.sets}×{it.min}–{it.max}{e.load === 'sec' ? '″' : ''}</div>
+                </li>
+              );
+            })}
+          </ul>
+
+          <div className="section">
+            <button className="btn" onClick={() => start()}>开始训练</button>
+            {pastDate === null ? (
+              <button className="btn quiet" onClick={() => setPastDate(yesterday)}>补录过去的训练</button>
+            ) : (
+              <div className="backfill">
+                <label>
+                  <span>补录「{t.name}」（{LOC_LABEL[loc]}），日期</span>
+                  <input className="field" type="date" max={yesterday} value={pastDate} onChange={(e) => setPastDate(e.target.value)} />
+                </label>
+                <div className="row2">
+                  <button className="btn ghost" onClick={() => setPastDate(null)}>取消</button>
+                  <button className="btn" onClick={() => start(pastDate)} disabled={!pastDate || pastDate > yesterday}>开始补录</button>
+                </div>
               </div>
-              <div className="dose">{it.sets}×{it.min}–{it.max}{e.load === 'sec' ? '″' : ''}</div>
-            </li>
-          );
-        })}
-      </ul>
-
-      <div className="section">
-        <button className="btn" onClick={() => start()}>开始训练</button>
-        {pastDate === null ? (
-          <button className="btn quiet" onClick={() => setPastDate(yesterday)}>补录过去的训练</button>
-        ) : (
-          <div className="backfill">
-            <label>
-              <span>补录 {week} 周{LOC_LABEL[loc]}，日期</span>
-              <input className="field" type="date" max={yesterday} value={pastDate} onChange={(e) => setPastDate(e.target.value)} />
-            </label>
-            <div className="row2">
-              <button className="btn ghost" onClick={() => setPastDate(null)}>取消</button>
-              <button className="btn" onClick={() => start(pastDate)} disabled={!pastDate || pastDate > yesterday}>开始补录</button>
-            </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
 
       <section className="section">
         <h2>最近训练</h2>
@@ -112,8 +152,8 @@ export function Today({ onOpen, onDetail }: { onOpen: (id: string) => void; onDe
             <li key={s.id}>
               <button className="row tap" onClick={() => onDetail(s.id)}>
                 <div className="body">
-                  <div className="name">{s.date}　{s.week} 周{LOC_LABEL[s.loc]}</div>
-                  <div className="note">{template(s.week, s.loc).title}</div>
+                  <div className="name">{s.date}　{sessionLabel(s)}</div>
+                  <div className="note">{sessionTitle(s)}</div>
                 </div>
                 <div className="dose">{n} 组</div>
                 <span className="chev" aria-hidden>›</span>

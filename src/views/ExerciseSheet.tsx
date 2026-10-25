@@ -1,8 +1,9 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../lib/db';
+import { db, putExercise } from '../lib/db';
 import { ex } from '../lib/data';
 import { formatSet } from '../lib/plan';
+import { ExerciseForm } from './ExerciseForm';
 
 export function Sheet({ onClose, children, label }: { onClose: () => void; children: ReactNode; label: string }) {
   useEffect(() => {
@@ -21,6 +22,8 @@ export function Sheet({ onClose, children, label }: { onClose: () => void; child
 }
 
 export function ExerciseSheet({ id, onClose }: { id: string; onClose: () => void }) {
+  const [editing, setEditing] = useState(false);
+  useLiveQuery(() => db.exercises.get(id), [id]); // re-render after an edit
   const e = ex(id);
   const history = useLiveQuery(async () => {
     const rows = await db.sets.where('exercise_id').equals(id).filter((r) => !r.deleted).toArray();
@@ -34,12 +37,22 @@ export function ExerciseSheet({ id, onClose }: { id: string; onClose: () => void
       .map((s) => ({ s, sets: bySession.get(s.id)!.sort((a, b) => a.set_no - b.set_no) }));
   }, [id]) ?? [];
 
+  async function remove() {
+    const row = await db.exercises.get(id);
+    if (!row || !confirm(`删除动作「${e.cn}」？已有的记录会保留。`)) return;
+    const { updated_at: _u, dirty: _d, ...rest } = row;
+    await putExercise({ ...rest, deleted: true });
+    onClose();
+  }
+
+  if (editing) return <ExerciseForm initial={e} onSaved={() => setEditing(false)} onClose={() => setEditing(false)} />;
+
   return (
     <Sheet onClose={onClose} label={e.cn}>
       <h2>{e.cn}</h2>
       <p className="en">{e.en}</p>
       <dl>
-        <dt>分类</dt><dd>{e.catName}（{e.size === '—' ? '辅助' : `${e.size}肌群`}）</dd>
+        <dt>分类</dt><dd>{e.custom ? `自定义动作 · ${e.group}` : `${e.catName}（${e.size === '—' ? '辅助' : `${e.size}肌群`}）`}</dd>
         <dt>主要肌群</dt><dd>{e.muscles}</dd>
         <dt>器材</dt><dd>{e.equip}</dd>
         {e.cue && <><dt>动作要点</dt><dd>{e.cue}</dd></>}
@@ -58,6 +71,12 @@ export function ExerciseSheet({ id, onClose }: { id: string; onClose: () => void
           <h3>早年教练课记录</h3>
           <ul>{e.legacy.map((l) => <li key={l}>{l}</li>)}</ul>
         </>
+      )}
+      {e.custom && (
+        <div className="stack section">
+          <button className="btn ghost" onClick={() => setEditing(true)}>编辑这个动作</button>
+          <button className="btn quiet" onClick={remove}>删除这个动作</button>
+        </div>
       )}
     </Sheet>
   );

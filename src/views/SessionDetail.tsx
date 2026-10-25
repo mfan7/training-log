@@ -1,11 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, lastSetsFor, putSession, putSet, volume } from '../lib/db';
-import { ex, WEEK_TITLE } from '../lib/data';
+import { ex, sessionLabel, sessionTitle } from '../lib/data';
 import { formatSet } from '../lib/plan';
 import type { Session, SetRow } from '../lib/types';
 import { SwipeRow } from './SwipeRow';
 
-const LOC_LABEL = { gym: '健身房', home: '居家' } as const;
 const fmt = (n: number) => n.toLocaleString('en-US');
 
 /** One past (or current) session: every exercise with its sets, volume, and the change from last time. */
@@ -57,7 +56,7 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
       <BackBar onBack={onBack} />
       <header className="detail-head">
         <h1>{s.date}</h1>
-        <p>{s.week} 周{LOC_LABEL[s.loc]} · {WEEK_TITLE[s.week]}{s.ended_at ? '' : ' · 进行中'}</p>
+        <p>{sessionLabel(s)} · {sessionTitle(s)}{s.ended_at ? '' : ' · 进行中'}</p>
       </header>
 
       <dl className="stats">

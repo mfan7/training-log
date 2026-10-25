@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, lastSetsFor, now, putSession, putSet, today, uid } from '../lib/db';
-import { ex, WEEK_TITLE } from '../lib/data';
+import { ex, sessionLabel, sessionTitle } from '../lib/data';
 import { formatSet, suggest } from '../lib/plan';
 import type { Exercise, Loc, PlanItem, Session, SetRow } from '../lib/types';
 import { ExerciseSheet } from './ExerciseSheet';
@@ -88,8 +88,8 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
   return (
     <>
       <header className="wk-head">
-        <h1>{session.week} 周{session.loc === 'gym' ? '健身房' : '居家'}</h1>
-        <span>{WEEK_TITLE[session.week]}，已完成 {totalDone}/{totalPlanned} 组</span>
+        <h1>{sessionLabel(session)}</h1>
+        <span>{sessionTitle(session)}，已完成 {totalDone}/{totalPlanned} 组</span>
       </header>
 
       {plan.map((it, i) => (
