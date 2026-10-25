@@ -61,6 +61,15 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
     setOpen(nextIndex(i, 1));
   }
 
+  async function removeItem(i: number) {
+    const it = plan[i];
+    const logged = doneOf(it.ex);
+    if (logged.length && !confirm(`删除「${ex(it.ex).cn}」和已记录的 ${logged.length} 组？`)) return;
+    for (const r of logged) await putSet({ ...r, deleted: true });
+    await savePlan(plan.filter((_, j) => j !== i));
+    setOpen(open > i ? open - 1 : open === i ? -1 : open);
+  }
+
   async function finish() {
     const endedAt = session!.ended_at ?? (backfill ? sets[sets.length - 1]?.done_at ?? session!.started_at : now());
     await putSession({ ...strip(session!), ended_at: endedAt });
@@ -90,6 +99,7 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
           onToggle={() => setOpen(open === i ? -1 : i)}
           onLog={(w, r) => log(i, w, r)}
           onSwap={() => setPicker({ mode: 'swap', index: i })}
+          onRemove={() => removeItem(i)}
           onInfo={() => setInfo(it.ex)}
         />
       ))}
@@ -128,6 +138,7 @@ const strip = ({ updated_at: _u, dirty: _d, ...s }: Session) => s;
 function ItemCard(props: {
   item: PlanItem; loc: Loc; sessionId: string; done: SetRow[]; open: boolean;
   onToggle: () => void; onLog: (w: number | null, r: number) => void; onSwap: () => void; onInfo: () => void;
+  onRemove: () => void;
 }) {
   const { item, done, open } = props;
   const e = ex(item.ex);
@@ -139,15 +150,17 @@ function ItemCard(props: {
 
   return (
     <section className={`card${finished ? ' done' : ''}`} data-g={e.group}>
-      <header onClick={props.onToggle} role="button" tabIndex={0} aria-expanded={open}
-        onKeyDown={(k) => (k.key === 'Enter' || k.key === ' ') && props.onToggle()}>
-        <span className="mark" aria-hidden />
-        <div className="body">
-          <div className="name">{e.cn}{item.ss && <span className="ss">超级组</span>}</div>
-          <div className="en">{e.en}</div>
-        </div>
-        <span className="count">{done.length}/{item.sets}</span>
-      </header>
+      <SwipeRow as="div" className="card-swipe" label={`动作「${e.cn}」`} onDelete={props.onRemove}>
+        <header onClick={props.onToggle} role="button" tabIndex={0} aria-expanded={open}
+          onKeyDown={(k) => (k.key === 'Enter' || k.key === ' ') && props.onToggle()}>
+          <span className="mark" aria-hidden />
+          <div className="body">
+            <div className="name">{e.cn}{item.ss && <span className="ss">超级组</span>}</div>
+            <div className="en">{e.en}</div>
+          </div>
+          <span className="count">{done.length}/{item.sets}</span>
+        </header>
+      </SwipeRow>
       {open && (
         <div className="inner">
           <p className="hint">
@@ -164,7 +177,7 @@ function ItemCard(props: {
                   </SwipeRow>
                 ))}
               </ul>
-              <p className="swipe-hint">左滑一组可以删除</p>
+              <p className="swipe-hint">左滑一组可以删除；左滑动作名称可以删除整个动作</p>
             </>
           )}
           <div className="card-actions">

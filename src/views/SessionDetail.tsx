@@ -2,7 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db, lastSetsFor, putSession, putSet, volume } from '../lib/db';
 import { ex, WEEK_TITLE } from '../lib/data';
 import { formatSet } from '../lib/plan';
-import type { Session } from '../lib/types';
+import type { Session, SetRow } from '../lib/types';
 import { SwipeRow } from './SwipeRow';
 
 const LOC_LABEL = { gym: '健身房', home: '居家' } as const;
@@ -39,6 +39,12 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
   const total = groups.filter((g) => ex(g.exId).load === 'lb').reduce((a, g) => a + volume('lb', g.sets).value, 0);
   const minutes = s.ended_at ? Math.round((Date.parse(s.ended_at) - Date.parse(s.started_at)) / 60e3) : null;
 
+  async function removeExercise(exId: string, sets: SetRow[]) {
+    if (!confirm(`删除「${ex(exId).cn}」和它的 ${sets.length} 组？`)) return;
+    for (const r of sets) await putSet({ ...r, deleted: true });
+    await putSession({ ...strip(s), plan: s.plan.filter((p) => p.ex !== exId) });
+  }
+
   async function remove() {
     if (!confirm('删除这次训练和它的所有组？')) return;
     for (const g of groups) for (const r of g.sets) await putSet({ ...r, deleted: true });
@@ -68,6 +74,7 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
         const diff = pv ? v.value - pv.value : null;
         return (
           <section className="card detail" key={exId} data-g={e.group}>
+            <SwipeRow as="div" className="card-swipe" label={`动作「${e.cn}」`} onDelete={() => removeExercise(exId, sets)}>
             <header>
               <span className="mark" aria-hidden />
               <div className="body">
@@ -83,6 +90,7 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
                 )}
               </div>
             </header>
+            </SwipeRow>
             <ul className="set-list" aria-label={`${e.cn}的组`}>
               {sets.map((r, k) => (
                 <SwipeRow key={r.id} label={`${e.cn}第 ${k + 1} 组`} onDelete={() => putSet({ ...r, deleted: true })}>
@@ -95,7 +103,7 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
         );
       })}
 
-      {groups.length > 0 && <p className="swipe-hint">左滑一组可以删除。▲▼ 是和上次做这个动作相比。</p>}
+      {groups.length > 0 && <p className="swipe-hint">左滑一组或动作名称可以删除。▲▼ 是和上次做这个动作相比。</p>}
       <div className="stack section">
         <button className="btn ghost" onClick={() => onEdit(s.id)}>{s.ended_at ? '继续编辑（加组、换动作）' : '回到训练'}</button>
         <button className="btn quiet" onClick={remove}>删除这次训练</button>
