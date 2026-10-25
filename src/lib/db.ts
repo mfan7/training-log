@@ -82,9 +82,3 @@ export async function lastSetsFor(exerciseId: string, excludeSession?: string, b
   }
   return [];
 }
-
-/** Total lb × reps for weighted sets; reps (or seconds) otherwise. */
-export function volume(load: string, sets: Pick<SetRow, 'weight' | 'reps'>[]): { value: number; unit: string } {
-  if (load === 'lb') return { value: sets.reduce((a, s) => a + (s.weight ?? 0) * s.reps, 0), unit: 'lb' };
-  return { value: sets.reduce((a, s) => a + s.reps, 0), unit: load === 'sec' ? '秒' : '次' };
-}
