@@ -60,6 +60,7 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
   }
   async function discard() {
     if (!confirm('放弃这次训练？已记录的组也会删除。')) return;
+    for (const r of sets) await putSet({ ...r, deleted: true });
     await putSession({ ...strip(session!), ended_at: now(), deleted: true });
     onClose();
   }

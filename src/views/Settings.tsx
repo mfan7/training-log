@@ -9,6 +9,7 @@ import { db } from '../lib/db';
 export function Settings({ sync: state, pending }: { sync: SyncState; pending: number }) {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [sent, setSent] = useState(false);
   const [msg, setMsg] = useState<{ text: string; err?: boolean } | null>(null);
@@ -23,6 +24,15 @@ export function Settings({ sync: state, pending }: { sync: SyncState; pending: n
     const { data } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user ?? null));
     return () => data.subscription.unsubscribe();
   }, []);
+
+  /** Password login works inside the home-screen app; email links always open in Safari. */
+  async function signIn() {
+    if (!supabase) return;
+    setMsg(null);
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    if (error) setMsg({ text: `登录失败：${error.message}`, err: true });
+    else { setMsg({ text: '已登录，正在同步。' }); setPassword(''); }
+  }
 
   async function sendLink() {
     if (!supabase) return;
@@ -60,7 +70,10 @@ export function Settings({ sync: state, pending }: { sync: SyncState; pending: n
           <div className="stack">
             <p className="msg">登录后，记录会同步到云端，换手机或清除浏览器数据也不会丢。没登录时照常记录，登录后自动上传。</p>
             <input className="field" type="email" autoComplete="email" placeholder="邮箱" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <button className="btn" onClick={sendLink} disabled={!email.includes('@')}>发送登录邮件</button>
+            <input className="field" type="password" autoComplete="current-password" placeholder="密码" value={password}
+              onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && signIn()} />
+            <button className="btn" onClick={signIn} disabled={!email.includes('@') || !password}>登录</button>
+            <button className="btn quiet" onClick={sendLink} disabled={!email.includes('@')}>没有密码？发送登录邮件</button>
             {sent && (
               <>
                 <input className="field code" inputMode="numeric" autoComplete="one-time-code" placeholder="验证码" value={code}
