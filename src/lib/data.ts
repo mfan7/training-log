@@ -36,6 +36,9 @@ export const seedTemplates = (): Template[] => SEEDS.map((t) => ({
   deleted: false, updated_at: '1970-01-01T00:00:00.000Z', dirty: 0,
 }));
 
+/** The shipped version of a built-in plan, for "restore defaults". */
+export const seedFor = (id: string) => seedTemplates().find((t) => t.id === id);
+
 /** The plan a session came from, including sessions logged before plans were editable. */
 export const sessionTemplateId = (s: Session): string | undefined => s.template_id ?? seedId(s.week, s.loc);
 

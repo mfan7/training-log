@@ -8,8 +8,16 @@ const strip = ({ updated_at: _u, dirty: _d, ...t }: Template) => t;
 
 /** All plans per place: the rotation in order (reorderable), then plans outside it. */
 export function Plans({ onBack, onEdit }: { onBack: () => void; onEdit: (id: string | 'new', loc: Loc) => void }) {
-  const templates = useLiveQuery(() => db.templates.filter((t) => !t.deleted).toArray(), []);
-  if (!templates) return null;
+  const everything = useLiveQuery(() => db.templates.toArray(), []);
+  if (!everything) return null;
+  const templates = everything.filter((t) => !t.deleted);
+  const deleted = everything.filter((t) => t.deleted).sort((a, b) => b.updated_at.localeCompare(a.updated_at));
+
+  async function restore(t: Template) {
+    // back at the end of its place's rotation, so it can't collide with the current order
+    const position = rotationOf(templates, t.loc).reduce((m, x) => Math.max(m, x.position + 1), 0);
+    await putTemplate({ ...strip(t), deleted: false, position });
+  }
 
   async function move(rot: Template[], i: number, by: number) {
     const order = rot.slice();
@@ -59,6 +67,23 @@ export function Plans({ onBack, onEdit }: { onBack: () => void; onEdit: (id: str
           </section>
         );
       })}
+
+      {deleted.length > 0 && (
+        <section className="section">
+          <h2>已删除的计划</h2>
+          <ul className="list">
+            {deleted.map((t) => (
+              <li className="row plan-row" key={t.id}>
+                <div className="body">
+                  <div className="name">{t.name}</div>
+                  <div className="note">{LOC_LABEL[t.loc]} · {t.items.length} 个动作</div>
+                </div>
+                <button className="btn ghost small" onClick={() => restore(t)}>恢复</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </>
   );
 }

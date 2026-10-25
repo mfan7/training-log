@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { db, putTemplate, uid } from '../lib/db';
-import { ex, LOC_LABEL } from '../lib/data';
+import { ex, LOC_LABEL, seedFor } from '../lib/data';
 import type { Loc, PlanItem, Template } from '../lib/types';
 import { Picker } from './Picker';
 
@@ -137,6 +137,13 @@ export function PlanEditor({ id, loc: initialLoc, onDone }: { id: string | 'new'
       {err && <p className="msg err">{err}</p>}
       <div className="stack section">
         <button className="btn" onClick={save}>保存计划</button>
+        {orig && seedFor(orig.id) && (
+          <button className="btn quiet" onClick={() => {
+            const s = seedFor(orig.id)!;
+            setD({ name: s.name, loc: s.loc, rotation: true, items: s.items, link: toLinks(s.items) });
+            setErr('已恢复成默认内容，点「保存计划」生效。');
+          }}>恢复成默认内容</button>
+        )}
         {orig && <button className="btn quiet" onClick={del}>删除这个计划</button>}
       </div>
 

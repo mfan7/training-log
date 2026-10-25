@@ -109,3 +109,6 @@ create policy "own exercises" on public.exercises
   for all to authenticated
   using ((select auth.uid()) = user_id)
   with check ((select auth.uid()) = user_id);
+
+-- Make the API see the changes right away.
+notify pgrst, 'reload schema';
