@@ -4,7 +4,7 @@ import type { Muscle } from 'react-body-highlighter';
 import { db, putSession, putSet } from '../lib/db';
 import { ex, sessionLabel, sessionTitle } from '../lib/data';
 import { formatSet } from '../lib/plan';
-import { compactSets, groupsWorked, LEVEL_LABEL, MUSCLE_NAME, muscleVolume, musclesOf, rateSession, volumeFill } from '../lib/muscles';
+import { compactSets, conditioning, groupsWorked, LEVEL_LABEL, MUSCLE_NAME, muscleVolume, musclesOf, rateSession, volumeFill } from '../lib/muscles';
 import type { Session } from '../lib/types';
 import { BodyMap, VolumeLegend, type Fill } from './BodyMap';
 
@@ -34,6 +34,7 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
   const { s, results } = data;
   const minutes = s.ended_at ? Math.round((Date.parse(s.ended_at) - Date.parse(s.started_at)) / 60e3) : null;
   const vol = muscleVolume(results.flatMap((r) => r.sets));
+  const fit = conditioning(results.flatMap((r) => r.sets));
   const fills = new Map([...vol].map(([m, v]) => [m, volumeFill(v.sets) as Fill]));
   const shown = focus ? results.filter((r) => vol.get(focus)?.exercises.has(r.exId)) : results;
   const count = (f: (r: (typeof results)[number]) => boolean) => results.filter(f).length;
@@ -64,6 +65,12 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
         <>
           <section className="summary">
             <p className="worked">练到：<b>{groupsWorked(results.map((r) => r.exId)).join(' · ') || '—'}</b></p>
+            {(fit.minutes > 0 || fit.rounds > 0) && (
+              <p className="fitness">
+                体能：{fit.minutes > 0 && <><b>{fit.minutes}</b> 分钟</>}{fit.minutes > 0 && fit.rounds > 0 && ' · '}
+                {fit.rounds > 0 && <><b>{fit.rounds}</b> 组 HIIT 动作</>}
+              </p>
+            )}
             {compared && (
               <p className="trend-line">
                 {prs > 0 && <span className="pr">🏆 新纪录 {prs}</span>}

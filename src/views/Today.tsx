@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, lastSetsFor, putSession, today, uid, now } from '../lib/db';
-import { ex, letter, LOC_LABEL, sessionLabel, sessionTitle } from '../lib/data';
+import { CLASS_ID, ex, letter, LOC_LABEL, sessionLabel, sessionTitle } from '../lib/data';
 import { rotationOf, suggest, suggestTemplate, weekKey } from '../lib/plan';
 import type { Loc, SetRow } from '../lib/types';
 import type { Muscle } from 'react-body-highlighter';
@@ -51,6 +51,16 @@ export function Today({ onOpen, onEditPlan, onPlans }: {
     await putSession({
       id, date: date ?? today(), week: letter(slot), loc, plan: t.items, template_id: t.id, title: t.name,
       started_at: startedAt, ended_at: null, notes: '', deleted: false,
+    });
+    onOpen(id);
+  }
+  /** A group class or HIIT on its own: one entry for its minutes, outside the rotation. */
+  async function startClass(date?: string) {
+    const id = uid();
+    await putSession({
+      id, date: date ?? today(), week: '-', loc, plan: [{ ex: CLASS_ID, sets: 1, min: 30, max: 60, rest: 0 }],
+      template_id: null, title: 'HIIT 团课', notes: '', deleted: false, ended_at: null,
+      started_at: date ? new Date(`${date}T12:00:00`).toISOString() : now(),
     });
     onOpen(id);
   }
@@ -115,7 +125,7 @@ export function Today({ onOpen, onEditPlan, onPlans }: {
                     <div className="name">{e.cn}{it.ss && <span className="ss">超级组</span>}</div>
                     <div className="note">{sg.note}</div>
                   </div>
-                  <div className="dose">{it.sets}×{it.min}–{it.max}{e.load === 'sec' ? '″' : ''}</div>
+                  <div className="dose">{e.load === 'min' ? `${it.min}–${it.max}′` : <>{it.sets}×{it.min}–{it.max}{e.load === 'sec' ? '″' : ''}</>}</div>
                 </li>
               );
             })}
@@ -135,12 +145,17 @@ export function Today({ onOpen, onEditPlan, onPlans }: {
                   <button className="btn ghost" onClick={() => setPastDate(null)}>取消</button>
                   <button className="btn" onClick={() => start(pastDate)} disabled={!pastDate || pastDate > yesterday}>开始补录</button>
                 </div>
+                <button className="btn quiet" onClick={() => startClass(pastDate)} disabled={!pastDate || pastDate > yesterday}>改为补录一节团课 / HIIT</button>
               </div>
             )}
           </div>
         </>
       )}
 
+      <div className="stack section">
+        <button className="btn ghost" onClick={() => startClass()}>＋ 记录团课 / HIIT</button>
+        <p className="hint center">记下这节课的分钟数；课上做了波比跳等动作，可以在训练里再加。</p>
+      </div>
     </>
   );
 }

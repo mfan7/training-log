@@ -4,7 +4,7 @@ import type { Muscle } from 'react-body-highlighter';
 import { db } from '../lib/db';
 import { ex, sessionLabel, sessionTitle } from '../lib/data';
 import { formatSet } from '../lib/plan';
-import { MUSCLE_NAME, volumeFill } from '../lib/muscles';
+import { isConditioning, MUSCLE_NAME, volumeFill } from '../lib/muscles';
 import { progressFor, RANGE_LABEL, type ExerciseProgress, type Range } from '../lib/progress';
 import { BodyMap, VolumeLegend, type Fill } from './BodyMap';
 
@@ -50,6 +50,15 @@ export function Results({ onDetail }: { onDetail: (id: string) => void }) {
             {range !== 'week' && p.sessions.length > 0 && <> · 平均每周 <b>{fmt1(p.sessions.length / p.weeks)}</b> 次</>}
             {p.records > 0 && <> · <span className="pr-text">🏆 新纪录 <b>{p.records}</b></span></>}
           </p>
+
+          {(p.fitness.minutes > 0 || p.fitness.rounds > 0) && (
+            <p className="fitness">
+              体能：{p.fitness.minutes > 0 && <><b>{p.fitness.minutes}</b> 分钟</>}
+              {p.fitness.minutes > 0 && p.fitness.rounds > 0 && ' · '}
+              {p.fitness.rounds > 0 && <><b>{p.fitness.rounds}</b> 组 HIIT 动作</>}
+              {range !== 'week' && p.fitness.minutes > 0 && <span>（平均每周 {Math.round(p.fitness.minutes / p.weeks)} 分钟）</span>}
+            </p>
+          )}
 
           {p.sessions.length === 0 ? <p className="empty">{RANGE_LABEL[range]}还没有训练。</p> : (
             <>
@@ -100,11 +109,11 @@ export function Results({ onDetail }: { onDetail: (id: string) => void }) {
               <section className="section">
                 <h2>力量变化</h2>
                 <ul className="ex-results">
-                  {[...p.exercises.values()].filter((x) => x.change !== null)
+                  {[...p.exercises.values()].filter((x) => x.change !== null && !isConditioning(ex(x.exId)))
                     .sort((a, b) => (b.change ?? 0) - (a.change ?? 0))
                     .map((x) => <ProgressRow key={x.exId} p={x} exId={x.exId} note={`${x.sets} 组`} />)}
                 </ul>
-                {[...p.exercises.values()].every((x) => x.change === null) && (
+                {[...p.exercises.values()].every((x) => x.change === null || isConditioning(ex(x.exId))) && (
                   <p className="empty">同一个动作做过两次以上，这里才会显示力量变化。</p>
                 )}
               </section>

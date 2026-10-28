@@ -1,6 +1,6 @@
 import { db } from './db';
 import { ex, GROUP_ORDER } from './data';
-import { muscleVolume, setScore } from './muscles';
+import { conditioning, muscleVolume, setScore } from './muscles';
 import type { Session, SetRow } from './types';
 
 export type Range = 'week' | 'month' | 'quarter' | 'all';
@@ -29,6 +29,7 @@ export interface ExerciseProgress {
 export interface Progress {
   sessions: Session[]; weeks: number; records: number;
   volume: ReturnType<typeof muscleVolume>;
+  fitness: ReturnType<typeof conditioning>;
   exercises: Map<string, ExerciseProgress>;
   groups: { group: string; perWeek: number; up: number; down: number }[];
 }
@@ -89,6 +90,6 @@ export async function progressFor(r: Range, now = new Date()): Promise<Progress>
   return {
     sessions: all.filter((s) => inRange.has(s.id)), weeks,
     records: [...exercises.values()].reduce((a, p) => a + p.records, 0),
-    volume: muscleVolume(mine), exercises, groups,
+    volume: muscleVolume(mine), fitness: conditioning(mine), exercises, groups,
   };
 }

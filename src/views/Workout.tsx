@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, lastSetsFor, now, putSession, putSet, today, uid } from '../lib/db';
-import { ex, sessionLabel, sessionTitle } from '../lib/data';
+import { ex, sessionLabel, sessionTitle, unitOf } from '../lib/data';
 import { formatSet, suggest } from '../lib/plan';
 import type { Exercise, Loc, PlanItem, Session, SetRow } from '../lib/types';
 import { ExerciseSheet } from './ExerciseSheet';
@@ -60,7 +60,7 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
       weight, reps, rpe: null, done_at: doneAt, deleted: false,
     });
     const restSec = settings.uniformRest ? settings.rest : it.rest;
-    if (!backfill) setRest({ end: Date.now() + restSec * 1000, total: restSec });
+    if (!backfill && restSec > 0) setRest({ end: Date.now() + restSec * 1000, total: restSec });
     setOpen(nextIndex(i, 1));
   }
 
@@ -168,7 +168,7 @@ function ItemCard(props: {
       {open && (
         <div className="inner">
           <p className="hint">
-            目标 {item.sets} 组 × {item.min}–{item.max}{e.load === 'sec' ? ' 秒' : ' 次'}。{sg.note}
+            目标 {item.sets} 组 × {item.min}–{item.max} {unitOf(e)}。{sg.note}
             {last && last.length > 0 && <><br />上次：{last.map((s) => formatSet(e, s)).join('，')}</>}
           </p>
           {last !== undefined && <SetLogger key={done.length} e={e} sg={sg} prev={done[done.length - 1]} setNo={done.length + 1} onLog={props.onLog} />}
@@ -202,7 +202,7 @@ function SetLogger({ e, sg, prev, setNo, onLog }: {
   const [w, setW] = useState<number>(prev?.weight ?? sg.weight ?? (e.load === 'level' ? 10 : 0));
   const [r, setR] = useState<number>(prev?.reps ?? sg.reps);
   const wStep = e.load === 'level' ? 1 : e.inc;
-  const rStep = e.load === 'sec' ? 5 : 1;
+  const rStep = e.load === 'sec' || e.load === 'min' ? 5 : 1;
   const wLabel = e.load === 'level' ? '辅助档位' : e.load === 'bw' ? '额外负重 lb' : '重量 lb';
 
   return (
@@ -210,7 +210,7 @@ function SetLogger({ e, sg, prev, setNo, onLog }: {
       {hasWeight && (
         <Dial label={wLabel} value={w} onChange={setW} step={wStep} min={e.load === 'level' ? 1 : 0} />
       )}
-      <Dial label={e.load === 'sec' ? '秒' : '次数'} value={r} onChange={setR} step={rStep} min={0} span={!hasWeight} />
+      <Dial label={e.load === 'sec' || e.load === 'min' ? unitOf(e) : '次数'} value={r} onChange={setR} step={rStep} min={0} span={!hasWeight} />
       <button className="btn" onClick={() => onLog(hasWeight ? (e.load === 'level' ? w : w || null) : null, r)} disabled={r <= 0}>
         完成第 {setNo} 组
       </button>

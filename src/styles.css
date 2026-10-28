@@ -353,3 +353,7 @@ textarea.field { resize: vertical; font: inherit; }
 .group-list .t em { font-style: normal; color: var(--chest); }
 .group-list .t b { margin-left: 6px; }
 .group-list .up { color: var(--arms); } .group-list .down { color: var(--lv-high); }
+
+.fitness { font-size: 15px; color: var(--muted); margin: 4px 0 0; }
+.fitness b { color: var(--ink); font-family: var(--num); font-size: 19px; }
+.fitness span { font-size: 13px; }

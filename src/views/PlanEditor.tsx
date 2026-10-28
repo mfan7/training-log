@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { db, putTemplate, uid } from '../lib/db';
-import { ex, LOC_LABEL, seedFor } from '../lib/data';
+import { ex, LOC_LABEL, seedFor, unitOf } from '../lib/data';
 import type { Loc, PlanItem, Template } from '../lib/types';
 import { Picker } from './Picker';
 import { useSettings } from '../lib/settings';
@@ -120,8 +120,8 @@ export function PlanEditor({ id, loc: initialLoc, onDone }: { id: string | 'new'
               </div>
               <div className="pi-nums">
                 <Num label="组" value={it.sets} onChange={(v) => setItem(i, { sets: v })} />
-                <Num label={e.load === 'sec' ? '最少秒' : '最少次'} value={it.min} onChange={(v) => setItem(i, { min: v })} />
-                <Num label={e.load === 'sec' ? '最多秒' : '最多次'} value={it.max} onChange={(v) => setItem(i, { max: v })} />
+                <Num label={`最少${unitOf(e)}`} value={it.min} onChange={(v) => setItem(i, { min: v })} />
+                <Num label={`最多${unitOf(e)}`} value={it.max} onChange={(v) => setItem(i, { max: v })} />
                 <Num label="休息秒" value={it.rest} onChange={(v) => setItem(i, { rest: v })} />
               </div>
               {i > 0 && (
@@ -160,7 +160,9 @@ export function PlanEditor({ id, loc: initialLoc, onDone }: { id: string | 'new'
             if (picker.index !== undefined) setItem(picker.index, { ex: exId });
             else {
               const e = ex(exId);
-              const item: PlanItem = e.load === 'sec'
+              const item: PlanItem = e.load === 'min'
+                ? { ex: exId, sets: 1, min: 30, max: 60, rest: 0 }
+                : e.load === 'sec'
                 ? { ex: exId, sets: settings.sets, min: 30, max: 45, rest: settings.rest }
                 : { ex: exId, sets: settings.sets, min: settings.repMin, max: settings.repMax, rest: settings.rest };
               set({ items: [...d.items, item], link: [...d.link, false] });

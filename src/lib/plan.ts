@@ -1,5 +1,5 @@
 import type { Exercise, Loc, PlanItem, SetRow, Session, Template } from './types';
-import { sessionTemplateId } from './data';
+import { sessionTemplateId, unitOf } from './data';
 
 /** Monday-based week key, local time. */
 export function weekKey(d: Date): string {
@@ -36,11 +36,15 @@ export interface Suggestion { weight: number | null; reps: number; note: string 
 /** Double progression: hit the top of the rep range on every set → add load next time. */
 /** `homeMax`: heaviest home dumbbell (lb each), from settings. */
 export function suggest(e: Exercise, item: PlanItem, last: SetRow[], loc: Loc, homeMax: number): Suggestion {
-  const unit = e.load === 'sec' ? '秒' : '次';
+  const unit = unitOf(e);
   if (!last.length) {
     if (e.load === 'level') return { weight: null, reps: item.min, note: `第一次：选一个能做 ${item.max} 次但很吃力的档位` };
     if (e.load === 'lb') return { weight: null, reps: item.min, note: `第一次：选一个能做 ${item.max} 次但很吃力的重量` };
     return { weight: null, reps: item.min, note: `第一次：目标 ${item.min}–${item.max} ${unit}` };
+  }
+  if (e.load === 'min') {
+    const lastMin = Math.max(...last.map((s) => s.reps));
+    return { weight: null, reps: lastMin, note: `上次 ${lastMin} 分钟` };
   }
   const allHit = last.length >= item.sets && last.every((s) => s.reps >= item.max);
   const bestReps = Math.max(...last.map((s) => s.reps));
@@ -74,6 +78,7 @@ export function suggest(e: Exercise, item: PlanItem, last: SetRow[], loc: Loc, h
 
 export function formatSet(e: Exercise, s: Pick<SetRow, 'weight' | 'reps'>): string {
   if (e.load === 'sec') return `${s.reps} 秒`;
+  if (e.load === 'min') return `${s.reps} 分钟`;
   if (e.load === 'level') return `档位 ${s.weight ?? '–'} × ${s.reps}`;
   if (!s.weight) return `自重 × ${s.reps}`;
   return `${s.weight} lb × ${s.reps}`;

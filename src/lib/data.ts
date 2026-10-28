@@ -2,7 +2,17 @@ import exercisesJson from '../data/exercises.json';
 import templatesJson from '../data/templates.json';
 import type { CustomExercise, Exercise, Loc, SeedTemplate, Session, Template } from './types';
 
-export const BUILTIN_EXERCISES = exercisesJson as Exercise[];
+// Exercises defined here rather than in the spreadsheet: logging a whole class as one entry.
+const EXTRA: Exercise[] = [{
+  id: 'CL01', cn: 'HIIT 团课', en: 'HIIT / group class', cat: 'CL', catName: '团课/体能', size: '—', group: '全身',
+  equip: '其他', home: true, homeNote: '', muscles: '全身、心肺', cue: '记录这节课的分钟数；课上做了特别的动作，可以再加进来。',
+  legacy: [], load: 'min', inc: 5, hiit: true,
+}];
+export const BUILTIN_EXERCISES = [...(exercisesJson as Exercise[]), ...EXTRA];
+export const CLASS_ID = 'CL01';
+
+/** Unit of `reps` for an exercise. */
+export const unitOf = (e: Exercise) => (e.load === 'sec' ? '秒' : e.load === 'min' ? '分钟' : '次');
 const SEEDS = templatesJson as SeedTemplate[];
 
 // Custom exercises are loaded from the local database; App keeps this in step via setCustomExercises.

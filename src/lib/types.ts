@@ -1,6 +1,7 @@
 export type Loc = 'gym' | 'home';
-/** lb = weight in pounds (0 = bodyweight), level = assist level, bw = bodyweight (weight optional), sec = seconds held */
-export type Load = 'lb' | 'level' | 'bw' | 'sec';
+/** lb = weight in pounds (0 = bodyweight), level = assist level, bw = bodyweight (weight optional),
+ *  sec = seconds held, min = minutes (classes, cardio); `reps` holds the seconds or minutes */
+export type Load = 'lb' | 'level' | 'bw' | 'sec' | 'min';
 
 export interface Exercise {
   id: string; cn: string; en: string;
@@ -10,6 +11,10 @@ export interface Exercise {
   load: Load; inc: number;
   /** true for exercises the user added in the app */
   custom?: boolean;
+  /** HIIT / conditioning: counts half toward muscle volume, and toward 体能 */
+  hiit?: boolean;
+  /** muscles picked on the body map; overrides what the muscle text implies */
+  map?: { primary: string[]; secondary: string[] };
 }
 
 /** A user-added exercise as stored locally. Synced to Supabase as { id, data, deleted }. */

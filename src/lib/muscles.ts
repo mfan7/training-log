@@ -46,7 +46,33 @@ function fromText(text: string): Muscle[] {
 }
 
 /** Primary muscles come from the exercise's group; others its description names are secondary. */
+// Full-body and conditioning moves name little more than "全身、心肺", so their muscles are set by hand.
+const BY_ID: Record<string, { primary: Muscle[]; secondary: Muscle[] }> = {
+  PW01: { primary: ['chest', 'quadriceps', 'gluteal'], secondary: ['triceps', 'front-deltoids', 'abs'] },           // 波比跳
+  PW02: { primary: ['quadriceps', 'gluteal', 'chest'], secondary: ['triceps', 'front-deltoids', 'abs', 'calves'] }, // 波比跳上箱
+  PW03: { primary: ['quadriceps', 'gluteal', 'front-deltoids'], secondary: ['triceps', 'abs'] },                   // 药球墙球
+  PW04: { primary: ['upper-back', 'abs', 'front-deltoids'], secondary: ['triceps', 'gluteal', 'obliques'] },      // 药球砸地
+  PW05: { primary: ['quadriceps', 'gluteal', 'front-deltoids'], secondary: ['triceps', 'abs'] },                   // 深蹲推举
+  PW06: { primary: ['quadriceps', 'gluteal'], secondary: ['calves', 'hamstring'] },                               // 深蹲跳
+  PW07: { primary: ['quadriceps', 'gluteal'], secondary: ['calves', 'hamstring'] },                               // 跳箱
+  PW08: { primary: ['front-deltoids', 'back-deltoids'], secondary: ['forearm', 'biceps', 'abs'] },               // 战绳
+  PW09: { primary: ['quadriceps', 'gluteal'], secondary: ['calves', 'hamstring', 'abs'] },                        // 雪橇推/拉
+  PW10: { primary: ['quadriceps', 'gluteal', 'front-deltoids'], secondary: ['triceps', 'chest', 'abs'] },          // 地雷管深蹲推举
+  PW12: { primary: ['abs', 'quadriceps'], secondary: ['gluteal', 'calves'] },                                     // 起坐站起跳
+  PW13: { primary: ['chest', 'quadriceps', 'gluteal'], secondary: ['triceps', 'front-deltoids', 'abs', 'adductor'] }, // 俯卧撑+蛙跳
+  PW14: { primary: ['calves', 'abductors'], secondary: ['gluteal', 'front-deltoids'] },                          // 星跳
+  WU01: { primary: ['calves', 'gluteal'], secondary: ['hamstring', 'quadriceps'] },                              // 跑步机坡度间歇
+  WU02: { primary: ['upper-back', 'quadriceps'], secondary: ['biceps', 'gluteal', 'hamstring', 'back-deltoids'] }, // 划船机
+  CL01: { primary: ['quadriceps', 'gluteal', 'hamstring', 'calves', 'abs', 'chest', 'front-deltoids', 'upper-back'], secondary: [] }, // 团课
+};
+
+/** HIIT / conditioning: the 爆发/代谢 moves, cardio warm-ups, classes, and exercises you marked as HIIT. */
+export const isConditioning = (e: Exercise) =>
+  !!e.hiit || e.group === '热身' || (e.group === '全身' && e.catName.includes('代谢'));
+
 export function musclesOf(e: Exercise): { primary: Muscle[]; secondary: Muscle[] } {
+  if (e.map) return e.map as { primary: Muscle[]; secondary: Muscle[] };
+  if (BY_ID[e.id]) return BY_ID[e.id];
   const named = fromText(e.muscles);
   const g = GROUP[e.group] ?? { family: [], fallback: [] };
   const inFamily = g.family.length ? named.filter((m) => g.family.includes(m)) : [];
@@ -76,7 +102,7 @@ export const MUSCLE_NAME: Record<string, string> = {
  */
 export function setScore(e: Exercise, s: Pick<SetRow, 'weight' | 'reps'>): number {
   const w = s.weight ?? 0;
-  if (e.load === 'sec') return s.reps;
+  if (e.load === 'sec' || e.load === 'min') return s.reps;
   if (e.load === 'level') return Math.max(1, 21 - w) * (1 + s.reps / 30);
   if (e.load === 'bw') return w > 0 ? 1000 + w * (1 + s.reps / 30) : s.reps;
   return w > 0 ? w * (1 + s.reps / 30) : s.reps / 100; // weighted lift logged at 0 lb barely counts
@@ -123,18 +149,22 @@ export async function rateSession(sessionId: string, sets: SetRow[]): Promise<Ex
   return out;
 }
 
-/** Effective sets per muscle: a set counts 1 for its primary muscles, 0.5 for secondary ones. Warm-ups don't count. */
+/**
+ * Effective sets per muscle: a set counts 1 for its primary muscles, 0.5 for secondary ones.
+ * HIIT / conditioning counts 0.5 for every muscle it works: it shows up without passing for strength work.
+ */
 export function muscleVolume(sets: Pick<SetRow, 'exercise_id' | 'reps'>[]) {
   const map = new Map<Muscle, { sets: number; exercises: Map<string, { sets: number; primary: boolean }> }>();
   for (const r of sets) {
     const e = ex(r.exercise_id);
-    if (e.group === '热身' || r.reps <= 0) continue;
+    if (r.reps <= 0) continue;
     const { primary, secondary } = musclesOf(e);
-    for (const [list, w] of [[primary, 1], [secondary, 0.5]] as const) {
+    const hiit = isConditioning(e);
+    for (const [list, w] of [[primary, hiit ? 0.5 : 1], [secondary, 0.5]] as const) {
       for (const m of list) {
         const cur = map.get(m) ?? { sets: 0, exercises: new Map() };
         cur.sets += w;
-        const x = cur.exercises.get(e.id) ?? { sets: 0, primary: w === 1 };
+        const x = cur.exercises.get(e.id) ?? { sets: 0, primary: list === primary };
         x.sets += 1;
         cur.exercises.set(e.id, x);
         map.set(m, cur);
@@ -142,6 +172,19 @@ export function muscleVolume(sets: Pick<SetRow, 'exercise_id' | 'reps'>[]) {
     }
   }
   return map;
+}
+
+/** 体能: minutes of timed conditioning, and sets of conditioning moves counted by reps. */
+export function conditioning(sets: Pick<SetRow, 'exercise_id' | 'reps'>[]) {
+  let minutes = 0, rounds = 0;
+  for (const r of sets) {
+    const e = ex(r.exercise_id);
+    if (!isConditioning(e) || r.reps <= 0) continue;
+    if (e.load === 'min') minutes += r.reps;
+    else if (e.load === 'sec') minutes += r.reps / 60;
+    else rounds++;
+  }
+  return { minutes: Math.round(minutes), rounds };
 }
 
 /** Weekly-sets bands: under 5 little, 5–10, 10–20 the usual target, over 20 a lot. */
