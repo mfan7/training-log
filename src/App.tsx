@@ -9,10 +9,11 @@ import { Settings } from './views/Settings';
 import { SessionDetail } from './views/SessionDetail';
 import { PlanEditor } from './views/PlanEditor';
 import { Plans } from './views/Plans';
+import { Results } from './views/Results';
 import { setCustomExercises } from './lib/data';
 import type { Loc } from './lib/types';
 
-type Tab = 'today' | 'library' | 'settings';
+type Tab = 'today' | 'results' | 'library' | 'settings';
 
 function useSync(): SyncState {
   const [s, set] = useState(getSyncState());
@@ -63,13 +64,14 @@ export function App() {
         </button>
       </header>
       {tab === 'today' && (
-        <Today onOpen={setOpenId} onDetail={setDetailId} onEditPlan={(id, loc) => setEditPlan({ id, loc })} onPlans={() => setPlans(true)} />
+        <Today onOpen={setOpenId} onEditPlan={(id, loc) => setEditPlan({ id, loc })} onPlans={() => setPlans(true)} />
       )}
+      {tab === 'results' && <Results onDetail={setDetailId} />}
       {tab === 'library' && <Library />}
       {tab === 'settings' && <Settings sync={sync} pending={pending} />}
       <div className="tabs">
         <nav>
-          {([['today', '今天'], ['library', '动作库'], ['settings', '设置']] as const).map(([k, label]) => (
+          {([['today', '今天'], ['results', '成果'], ['library', '动作库'], ['settings', '设置']] as const).map(([k, label]) => (
             <button key={k} aria-current={tab === k ? 'page' : undefined} onClick={() => setTab(k)}>{label}</button>
           ))}
         </nav>

@@ -4,15 +4,9 @@ import type { Muscle } from 'react-body-highlighter';
 import { db, putSession, putSet } from '../lib/db';
 import { ex, sessionLabel, sessionTitle } from '../lib/data';
 import { formatSet } from '../lib/plan';
-import { compactSets, groupsWorked, LEVEL_LABEL, MUSCLE_NAME, muscleLevels, musclesOf, rateSession, type Level } from '../lib/muscles';
+import { compactSets, groupsWorked, LEVEL_LABEL, MUSCLE_NAME, muscleVolume, musclesOf, rateSession, volumeFill } from '../lib/muscles';
 import type { Session } from '../lib/types';
-import { BodyMap, type Fill } from './BodyMap';
-
-const FILL: Record<Level, [Fill, Fill]> = {
-  pr: ['var(--lv-pr)', 'var(--lv-pr-2)'], high: ['var(--lv-high)', 'var(--lv-high-2)'],
-  mid: ['var(--lv-mid)', 'var(--lv-mid-2)'], low: ['var(--lv-low)', 'var(--lv-low-2)'],
-  first: ['var(--lv-first)', 'var(--lv-first-2)'],
-};
+import { BodyMap, VolumeLegend, type Fill } from './BodyMap';
 
 /** One session at a glance: muscles worked and how hard, on a body map, then each exercise in one line. */
 export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () => void; onEdit: (id: string) => void }) {
@@ -39,9 +33,9 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
 
   const { s, results } = data;
   const minutes = s.ended_at ? Math.round((Date.parse(s.ended_at) - Date.parse(s.started_at)) / 60e3) : null;
-  const levels = muscleLevels(results);
-  const fills = new Map([...levels].map(([m, v]) => [m, FILL[v.level][v.primary ? 0 : 1]] as const));
-  const shown = focus ? results.filter((r) => levels.get(focus)?.exercises.includes(r.exId)) : results;
+  const vol = muscleVolume(results.flatMap((r) => r.sets));
+  const fills = new Map([...vol].map(([m, v]) => [m, volumeFill(v.sets) as Fill]));
+  const shown = focus ? results.filter((r) => vol.get(focus)?.exercises.has(r.exId)) : results;
   const count = (f: (r: (typeof results)[number]) => boolean) => results.filter(f).length;
   const prs = count((r) => r.level === 'pr');
   const ups = count((r) => r.trend === 'up');
@@ -79,14 +73,8 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
             )}
           </section>
 
-          <BodyMap fills={fills} label="这次训练练到的肌肉" onSelect={(m) => setFocus(levels.has(m) && focus !== m ? m : null)} />
-          <ul className="legend" aria-label="颜色说明">
-            <li><i style={{ background: 'var(--lv-high)' }} />接近最佳 / 新纪录</li>
-            <li><i style={{ background: 'var(--lv-mid)' }} />中等</li>
-            <li><i style={{ background: 'var(--lv-low)' }} />轻松</li>
-            <li><i style={{ background: 'var(--lv-first)' }} />首次</li>
-            <li><i style={{ background: 'var(--lv-high-2)' }} />浅色 = 协同肌</li>
-          </ul>
+          <BodyMap fills={fills} label="这次训练练到的肌肉" onSelect={(m) => setFocus(vol.has(m) && focus !== m ? m : null)} />
+          <VolumeLegend note="颜色 = 这次每块肌肉的有效组数（主练 1 组，协同 0.5 组）；每周建议 10–20 组。" />
 
           <div className="focus-bar">
             {focus
@@ -98,11 +86,12 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
             {shown.map((r) => {
               const e = ex(r.exId);
               const role = focus ? (musclesOf(e).primary.includes(focus) ? '主练' : '协同') : null;
+              const v = focus ? vol.get(focus)?.exercises.get(r.exId) : null;
               return (
                 <li key={r.exId} className={`lv-${r.level}`}>
                   <span className="dot" aria-hidden />
                   <div className="body">
-                    <div className="name">{e.cn}{role && <span className="ss">{role}</span>}</div>
+                    <div className="name">{e.cn}{role && <span className="ss">{role}{v ? ` ${v.sets} 组` : ''}</span>}</div>
                     <div className="sets">{compactSets(r.sets.map((x) => formatSet(e, x)))}</div>
                     <div className="note">{r.best ? `之前最佳 ${formatSet(e, r.best)}` : '第一次做这个动作'}</div>
                   </div>
@@ -114,7 +103,7 @@ export function SessionDetail({ id, onBack, onEdit }: { id: string; onBack: () =
               );
             })}
           </ul>
-          <p className="swipe-hint">强度按重量和次数折算的力量，和你自己做这个动作的历史最佳比。</p>
+          <p className="swipe-hint">右侧强度：按重量和次数折算的力量，和你自己做这个动作的历史最佳比（同一个动作做过两次以上才有）。</p>
         </>
       )}
 

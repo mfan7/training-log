@@ -123,24 +123,35 @@ export async function rateSession(sessionId: string, sets: SetRow[]): Promise<Ex
   return out;
 }
 
-const RANK: Level[] = ['first', 'low', 'mid', 'high', 'pr'];
-/** Each muscle's colour: the hardest exercise that hit it as a primary muscle, else as a secondary one. */
-export function muscleLevels(results: { exId: string; level: Level }[]) {
-  const map = new Map<Muscle, { level: Level; primary: boolean; exercises: string[] }>();
-  for (const r of results) {
-    const { primary, secondary } = musclesOf(ex(r.exId));
-    for (const [list, isPrimary] of [[primary, true], [secondary, false]] as const) {
+/** Effective sets per muscle: a set counts 1 for its primary muscles, 0.5 for secondary ones. Warm-ups don't count. */
+export function muscleVolume(sets: Pick<SetRow, 'exercise_id' | 'reps'>[]) {
+  const map = new Map<Muscle, { sets: number; exercises: Map<string, { sets: number; primary: boolean }> }>();
+  for (const r of sets) {
+    const e = ex(r.exercise_id);
+    if (e.group === '热身' || r.reps <= 0) continue;
+    const { primary, secondary } = musclesOf(e);
+    for (const [list, w] of [[primary, 1], [secondary, 0.5]] as const) {
       for (const m of list) {
-        const cur = map.get(m);
-        const better = !cur || (isPrimary && !cur.primary) ||
-          (isPrimary === cur.primary && RANK.indexOf(r.level) > RANK.indexOf(cur.level));
-        const exercises = [...(cur?.exercises ?? []), r.exId];
-        map.set(m, better ? { level: r.level, primary: isPrimary, exercises } : { ...cur!, exercises });
+        const cur = map.get(m) ?? { sets: 0, exercises: new Map() };
+        cur.sets += w;
+        const x = cur.exercises.get(e.id) ?? { sets: 0, primary: w === 1 };
+        x.sets += 1;
+        cur.exercises.set(e.id, x);
+        map.set(m, cur);
       }
     }
   }
   return map;
 }
+
+/** Weekly-sets bands: under 5 little, 5–10, 10–20 the usual target, over 20 a lot. */
+export const VOL_BANDS = [
+  { max: 5, fill: 'var(--vol-1)', label: '少于 5 组' },
+  { max: 10, fill: 'var(--vol-2)', label: '5–10 组' },
+  { max: 20, fill: 'var(--vol-3)', label: '10–20 组' },
+  { max: Infinity, fill: 'var(--vol-4)', label: '20 组以上' },
+] as const;
+export const volumeFill = (weeklySets: number) => VOL_BANDS.find((b) => weeklySets < b.max)!.fill;
 
 /** "15 lb × 10 × 4, 20 lb × 8": identical sets in a row collapse. */
 export function compactSets(parts: string[]): string {

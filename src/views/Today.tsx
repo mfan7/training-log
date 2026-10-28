@@ -12,8 +12,8 @@ import { useSettings } from '../lib/settings';
 // Survives leaving 今天 for the plan editor or a workout, until the app is closed.
 const remembered: { loc: Loc; picked: string | null } = { loc: 'gym', picked: null };
 
-export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
-  onOpen: (id: string) => void; onDetail: (id: string) => void;
+export function Today({ onOpen, onEditPlan, onPlans }: {
+  onOpen: (id: string) => void;
   onEditPlan: (id: string | 'new', loc: Loc) => void; onPlans: () => void;
 }) {
   const sessions = useLiveQuery(() => db.sessions.toArray(), []) ?? [];
@@ -21,7 +21,6 @@ export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
   const [loc, setLocState] = useState<Loc>(remembered.loc);
   const [picked, setPickedState] = useState<string | null>(remembered.picked);
   const setPicked = (id: string | null) => { remembered.picked = id; setPickedState(id); };
-  const [showAll, setShowAll] = useState(false);
   const [pastDate, setPastDate] = useState<string | null>(null);
   const settings = useSettings();
   const setLoc = (l: Loc) => { remembered.loc = l; setLocState(l); setPicked(null); };
@@ -39,14 +38,6 @@ export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
     return out;
   }, [t?.id, t?.updated_at]) ?? {};
 
-  const recent = useLiveQuery(async () => {
-    const done = (await db.sessions.toArray()).filter((s) => !s.deleted && s.ended_at)
-      .sort((a, b) => b.started_at.localeCompare(a.started_at));
-    return Promise.all(done.map(async (s) => ({
-      s, n: await db.sets.where('session_id').equals(s.id).filter((r) => !r.deleted).count(),
-    })));
-  }, []) ?? [];
-  const shown = showAll ? recent : recent.slice(0, 6);
 
   const thisWeek = sessions.filter((s) => !s.deleted && s.ended_at && weekKey(new Date(s.started_at)) === weekKey(new Date()));
   const doneGym = thisWeek.some((s) => s.loc === 'gym');
@@ -150,27 +141,6 @@ export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
         </>
       )}
 
-      <section className="section">
-        <h2>最近训练</h2>
-        {recent.length === 0 && <p className="empty">还没有记录。完成第一次训练后会显示在这里。</p>}
-        <ul className="list">
-          {shown.map(({ s, n }) => (
-            <li key={s.id}>
-              <button className="row tap" onClick={() => onDetail(s.id)}>
-                <div className="body">
-                  <div className="name">{s.date}　{sessionLabel(s)}</div>
-                  <div className="note">{sessionTitle(s)}</div>
-                </div>
-                <div className="dose">{n} 组</div>
-                <span className="chev" aria-hidden>›</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        {recent.length > 6 && (
-          <button className="btn quiet" onClick={() => setShowAll(!showAll)}>{showAll ? '收起' : `查看全部（${recent.length} 次）`}</button>
-        )}
-      </section>
     </>
   );
 }

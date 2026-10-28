@@ -19,8 +19,8 @@
   /* body map: intensity vs your own best; -2 = lighter shade for secondary muscles */
   --body: #CDD1D6;
   --lv-pr: #B3261E; --lv-high: #D8453B; --lv-mid: #E0A50F; --lv-low: #3E9B5C; --lv-first: #7C8B9C;
-  --lv-pr-2: #E5A49F; --lv-high-2: #EDB0AA; --lv-mid-2: #EFD48F; --lv-low-2: #A9D3B5; --lv-first-2: #B7C0CA;
   --plan-1: #2456A6; --plan-2: #9DB6DD;
+  --vol-1: #A3C0EA; --vol-2: #7EA6DC; --vol-3: #2F68BF; --vol-4: #6B3FA0;
 
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
@@ -43,8 +43,8 @@
     --core: #9AA1A9;
     --body: #3A3F45;
     --lv-pr: #FF5A4E; --lv-high: #E8554B; --lv-mid: #E8B934; --lv-low: #4FA56E; --lv-first: #66717E;
-    --lv-pr-2: #7A3A35; --lv-high-2: #74403B; --lv-mid-2: #77622A; --lv-low-2: #345A41; --lv-first-2: #4A525B;
     --plan-1: #5B8EE0; --plan-2: #34496B;
+    --vol-1: #2F4466; --vol-2: #3E66A6; --vol-3: #6E9CF0; --vol-4: #B48BE8;
   }
 }
 
@@ -328,3 +328,28 @@ textarea.field { resize: vertical; font: inherit; }
 .pref-in input::-webkit-outer-spin-button, .pref-in input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .pref-in small { width: 1.8em; color: var(--muted); }
 .prefs .toggle { padding: 8px 0; border-bottom: 1px solid var(--line); margin: 0; }
+
+.legend-note { text-align: center; font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+
+/* ---------- 成果 ---------- */
+.range-seg { margin: 8px 0 14px; }
+.pr-text { color: var(--lv-pr); }
+.center { text-align: center; }
+.muscle-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px 4px; margin-top: 12px; }
+.mp-head { display: flex; align-items: center; gap: 10px; }
+.mp-head h2 { margin: 0; font-size: 20px; color: var(--ink); }
+.mp-head span { flex: 1; color: var(--muted); font-family: var(--num); font-size: 18px; font-weight: 600; }
+.muscle-panel .ex-results { border-top: 0; }
+.muscle-panel .ex-results li:last-child { border-bottom: 0; }
+.pg-up { --lv: var(--arms); } .pg-down { --lv: var(--lv-high); } .pg-same, .pg-none { --lv: var(--muted); }
+
+.group-list { list-style: none; margin: 0; padding: 0; }
+.group-list li { display: grid; grid-template-columns: 14px 2.6em 1fr 2.6em 4.2em; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.group-list .g { font-weight: 600; }
+.group-list .bar { height: 8px; border-radius: 4px; background: var(--body); overflow: hidden; }
+.group-list .bar i { display: block; height: 100%; border-radius: 4px; }
+.group-list .n { font-family: var(--num); font-size: 18px; font-weight: 600; text-align: right; }
+.group-list .t { font-size: 13px; text-align: right; white-space: nowrap; }
+.group-list .t em { font-style: normal; color: var(--chest); }
+.group-list .t b { margin-left: 6px; }
+.group-list .up { color: var(--arms); } .group-list .down { color: var(--lv-high); }

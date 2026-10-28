@@ -1,11 +1,11 @@
 import Model, { type IExerciseData, type Muscle } from 'react-body-highlighter';
+import { VOL_BANDS } from '../lib/muscles';
 
 // The library colours a muscle by how many data entries name it (entry frequencies add up, then
 // pick highlightedColors[n - 1]). Giving each muscle exactly one entry with frequency = palette
 // index + 1 lets us choose every muscle's colour directly.
 export const PALETTE = [
-  'var(--lv-pr)', 'var(--lv-high)', 'var(--lv-mid)', 'var(--lv-low)', 'var(--lv-first)',
-  'var(--lv-pr-2)', 'var(--lv-high-2)', 'var(--lv-mid-2)', 'var(--lv-low-2)', 'var(--lv-first-2)',
+  'var(--vol-1)', 'var(--vol-2)', 'var(--vol-3)', 'var(--vol-4)',
   'var(--plan-1)', 'var(--plan-2)',
 ] as const;
 export type Fill = (typeof PALETTE)[number];
@@ -25,5 +25,18 @@ export function BodyMap({ fills, onSelect, label }: {
       <div><Model {...props} type="anterior" /><figcaption>正面</figcaption></div>
       <div><Model {...props} type="posterior" /><figcaption>背面</figcaption></div>
     </figure>
+  );
+}
+
+/** Colour key for maps coloured by effective sets. */
+export function VolumeLegend({ note }: { note: string }) {
+  return (
+    <>
+      <ul className="legend" aria-label="颜色说明">
+        <li><i style={{ background: 'var(--body)' }} />未练</li>
+        {VOL_BANDS.map((b) => <li key={b.label}><i style={{ background: b.fill }} />{b.label}</li>)}
+      </ul>
+      <p className="legend-note">{note}</p>
+    </>
   );
 }
