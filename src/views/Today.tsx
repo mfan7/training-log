@@ -7,6 +7,7 @@ import type { Loc, SetRow } from '../lib/types';
 import type { Muscle } from 'react-body-highlighter';
 import { groupsWorked, MUSCLE_NAME, musclesOf } from '../lib/muscles';
 import { BodyMap, type Fill } from './BodyMap';
+import { useSettings } from '../lib/settings';
 
 // Survives leaving 今天 for the plan editor or a workout, until the app is closed.
 const remembered: { loc: Loc; picked: string | null } = { loc: 'gym', picked: null };
@@ -22,6 +23,7 @@ export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
   const setPicked = (id: string | null) => { remembered.picked = id; setPickedState(id); };
   const [showAll, setShowAll] = useState(false);
   const [pastDate, setPastDate] = useState<string | null>(null);
+  const settings = useSettings();
   const setLoc = (l: Loc) => { remembered.loc = l; setLocState(l); setPicked(null); };
 
   const all = templates ?? [];
@@ -114,7 +116,7 @@ export function Today({ onOpen, onDetail, onEditPlan, onPlans }: {
           <ul className="list">
             {t.items.map((it, i) => {
               const e = ex(it.ex);
-              const sg = suggest(e, it, last[it.ex] ?? [], loc);
+              const sg = suggest(e, it, last[it.ex] ?? [], loc, settings.homeDbMax);
               return (
                 <li className="row" key={`${it.ex}-${i}`} data-g={e.group}>
                   <span className="mark" aria-hidden />

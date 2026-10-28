@@ -5,6 +5,7 @@ import { sync, type SyncState } from '../lib/sync';
 import { exportCsv } from '../lib/csv';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../lib/db';
+import { DEFAULTS, saveSettings, useSettings, type Settings as Prefs } from '../lib/settings';
 
 export function Settings({ sync: state, pending }: { sync: SyncState; pending: number }) {
   const [user, setUser] = useState<User | null>(null);
@@ -86,6 +87,8 @@ export function Settings({ sync: state, pending }: { sync: SyncState; pending: n
         {msg && <p className={`msg${msg.err ? ' err' : ''}`}>{msg.text}</p>}
       </section>
 
+      <TrainingPrefs />
+
       <section className="section">
         <h2>数据</h2>
         <div className="kv"><span>训练次数</span><span>{counts?.sessions ?? '–'}</span></div>
@@ -93,5 +96,38 @@ export function Settings({ sync: state, pending }: { sync: SyncState; pending: n
         <div className="section"><button className="btn ghost" onClick={exportCsv}>导出 CSV</button></div>
       </section>
     </>
+  );
+}
+
+/** Defaults used when adding exercises, and during workouts. */
+function TrainingPrefs() {
+  const p = useSettings();
+  const num = (k: keyof Prefs, label: string, unit: string, min: number, step = 1) => (
+    <label className="pref">
+      <span>{label}</span>
+      <span className="pref-in">
+        <button onClick={() => saveSettings({ [k]: Math.max(min, (p[k] as number) - step) })} aria-label={`${label}减 ${step}`}>−</button>
+        <input type="number" inputMode="numeric" value={p[k] as number}
+          onChange={(e) => saveSettings({ [k]: Math.max(min, Math.round(Number(e.target.value) || 0)) })} />
+        <button onClick={() => saveSettings({ [k]: (p[k] as number) + step })} aria-label={`${label}加 ${step}`}>+</button>
+        <small>{unit}</small>
+      </span>
+    </label>
+  );
+  return (
+    <section className="section prefs">
+      <h2>训练参数</h2>
+      {num('rest', '默认组间休息', '秒', 0, 15)}
+      <label className="toggle">
+        <input type="checkbox" checked={p.uniformRest} onChange={(e) => saveSettings({ uniformRest: e.target.checked })} />
+        训练时所有动作都用这个休息时间（不勾选：按计划里每个动作自己的休息时间）
+      </label>
+      {num('sets', '新加动作的组数', '组', 1)}
+      {num('repMin', '新加动作的最少次数', '次', 1)}
+      {num('repMax', '新加动作的最多次数', '次', p.repMin)}
+      {num('homeDbMax', '家里哑铃最重', 'lb', 5, 5)}
+      <p className="msg">「新加动作」指在计划编辑或训练中添加动作时的默认值，已有计划不变。参数只保存在这台设备上。</p>
+      <button className="btn quiet" onClick={() => saveSettings(DEFAULTS)}>恢复默认参数</button>
+    </section>
   );
 }

@@ -3,6 +3,7 @@ import { db, putTemplate, uid } from '../lib/db';
 import { ex, LOC_LABEL, seedFor } from '../lib/data';
 import type { Loc, PlanItem, Template } from '../lib/types';
 import { Picker } from './Picker';
+import { useSettings } from '../lib/settings';
 
 type Draft = { name: string; loc: Loc; rotation: boolean; items: PlanItem[]; link: boolean[] };
 
@@ -25,6 +26,7 @@ export function PlanEditor({ id, loc: initialLoc, onDone }: { id: string | 'new'
   const [d, setD] = useState<Draft | null>(null);
   const [picker, setPicker] = useState<{ index?: number } | null>(null);
   const [err, setErr] = useState('');
+  const settings = useSettings();
 
   useEffect(() => {
     if (id === 'new') { setD({ name: '', loc: initialLoc, rotation: true, items: [], link: [] }); return; }
@@ -159,8 +161,8 @@ export function PlanEditor({ id, loc: initialLoc, onDone }: { id: string | 'new'
             else {
               const e = ex(exId);
               const item: PlanItem = e.load === 'sec'
-                ? { ex: exId, sets: 3, min: 30, max: 45, rest: 45 }
-                : { ex: exId, sets: 3, min: 8, max: 12, rest: e.size === '大' ? 90 : 60 };
+                ? { ex: exId, sets: settings.sets, min: 30, max: 45, rest: settings.rest }
+                : { ex: exId, sets: settings.sets, min: settings.repMin, max: settings.repMax, rest: settings.rest };
               set({ items: [...d.items, item], link: [...d.link, false] });
             }
             setPicker(null);

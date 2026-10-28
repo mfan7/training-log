@@ -318,3 +318,13 @@ textarea.field { resize: vertical; font: inherit; }
 
 .plan-map { margin: 0 0 14px; }
 .plan-map .hint { text-align: center; margin: 6px 0 0; }
+
+/* ---------- training preferences ---------- */
+.pref { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.pref-in { display: flex; align-items: center; gap: 6px; }
+.pref-in button { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--surface); font-family: var(--num); font-size: 20px; font-weight: 600; }
+.pref-in input { width: 58px; text-align: center; border: 1.5px solid var(--line); border-radius: 10px; background: var(--raised); padding: 6px 0;
+  font-family: var(--num); font-size: 20px; font-weight: 600; -moz-appearance: textfield; }
+.pref-in input::-webkit-outer-spin-button, .pref-in input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.pref-in small { width: 1.8em; color: var(--muted); }
+.prefs .toggle { padding: 8px 0; border-bottom: 1px solid var(--line); margin: 0; }

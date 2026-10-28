@@ -31,12 +31,11 @@ export function suggestTemplate(sessions: Session[], templates: Template[], loc:
   return rot[0];
 }
 
-export const HOME_DB_MAX = 45; // adjustable dumbbells, lb each
-
 export interface Suggestion { weight: number | null; reps: number; note: string }
 
 /** Double progression: hit the top of the rep range on every set → add load next time. */
-export function suggest(e: Exercise, item: PlanItem, last: SetRow[], loc: Loc): Suggestion {
+/** `homeMax`: heaviest home dumbbell (lb each), from settings. */
+export function suggest(e: Exercise, item: PlanItem, last: SetRow[], loc: Loc, homeMax: number): Suggestion {
   const unit = e.load === 'sec' ? '秒' : '次';
   if (!last.length) {
     if (e.load === 'level') return { weight: null, reps: item.min, note: `第一次：选一个能做 ${item.max} 次但很吃力的档位` };
@@ -67,8 +66,8 @@ export function suggest(e: Exercise, item: PlanItem, last: SetRow[], loc: Loc): 
   if (!allHit) return { weight: top, reps: item.max, note: `保持 ${top} lb，争取每组 ${item.max} 次` };
   const next = top + e.inc;
   const homeDumbbell = loc === 'home' && e.equip.includes('哑铃') && !e.equip.includes('杠铃');
-  if (homeDumbbell && next > HOME_DB_MAX) {
-    return { weight: HOME_DB_MAX, reps: item.max + 2, note: '已到家里哑铃上限 45 lb：多做 2 次，或下放放慢到 3 秒' };
+  if (homeDumbbell && next > homeMax) {
+    return { weight: homeMax, reps: item.max + 2, note: `已到家里哑铃上限 ${homeMax} lb：多做 2 次，或下放放慢到 3 秒` };
   }
   return { weight: next, reps: item.min, note: `上次每组都到 ${item.max} 次 → 加到 ${next} lb` };
 }
@@ -80,4 +79,3 @@ export function formatSet(e: Exercise, s: Pick<SetRow, 'weight' | 'reps'>): stri
   return `${s.weight} lb × ${s.reps}`;
 }
 
-export const restFor = (item: PlanItem) => item.rest;

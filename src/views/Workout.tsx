@@ -7,6 +7,7 @@ import type { Exercise, Loc, PlanItem, Session, SetRow } from '../lib/types';
 import { ExerciseSheet } from './ExerciseSheet';
 import { Picker } from './Picker';
 import { SwipeRow } from './SwipeRow';
+import { useSettings } from '../lib/settings';
 
 type Rest = { end: number; total: number } | null;
 
@@ -21,6 +22,7 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
   const [picker, setPicker] = useState<{ mode: 'swap' | 'add'; index?: number } | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const lastLog = useRef(0);
+  const settings = useSettings();
   useWakeLock();
 
   if (!session) return null;
@@ -57,7 +59,8 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
       id: uid(), session_id: sessionId, exercise_id: it.ex, set_no: doneOf(it.ex).length + 1,
       weight, reps, rpe: null, done_at: doneAt, deleted: false,
     });
-    if (!backfill) setRest({ end: Date.now() + it.rest * 1000, total: it.rest });
+    const restSec = settings.uniformRest ? settings.rest : it.rest;
+    if (!backfill) setRest({ end: Date.now() + restSec * 1000, total: restSec });
     setOpen(nextIndex(i, 1));
   }
 
@@ -123,7 +126,7 @@ export function Workout({ sessionId, onClose }: { sessionId: string; onClose: ()
             if (picker.mode === 'swap' && picker.index !== undefined) {
               const p = plan.slice(); p[picker.index] = { ...p[picker.index], ex: id }; await savePlan(p);
             } else {
-              await savePlan([...plan, { ex: id, sets: 3, min: 8, max: 12, rest: 60 }]); setOpen(plan.length);
+              await savePlan([...plan, { ex: id, sets: settings.sets, min: settings.repMin, max: settings.repMax, rest: settings.rest }]); setOpen(plan.length);
             }
             setPicker(null);
           }}
@@ -143,7 +146,8 @@ function ItemCard(props: {
   const { item, done, open } = props;
   const e = ex(item.ex);
   const last = useLiveQuery(() => lastSetsFor(item.ex, props.sessionId), [item.ex, props.sessionId]);
-  const sg = useMemo(() => suggest(e, item, last ?? [], props.loc), [e, item, last, props.loc]);
+  const { homeDbMax } = useSettings();
+  const sg = useMemo(() => suggest(e, item, last ?? [], props.loc, homeDbMax), [e, item, last, props.loc, homeDbMax]);
   const finished = done.length >= item.sets;
 
   const removeSet = (r: SetRow) => putSet({ ...r, deleted: true });
