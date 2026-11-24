@@ -47,7 +47,7 @@ const TABLES: { name: string; local: () => AnyTable; up: (r: Row) => Row; down: 
   {
     name: 'exercises', local: () => db.exercises,
     up: ({ id, deleted, updated_at, dirty: _d, ...data }) => ({ id, deleted, updated_at, data }),
-    down: ({ id, deleted, updated_at, data }) => ({ ...data, id, deleted, updated_at, custom: true }),
+    down: ({ id, deleted, updated_at, data }) => ({ ...data, id, deleted, updated_at }),
   },
   { name: 'templates', local: () => db.templates, up: ({ dirty: _d, ...r }) => r, down: (r) => r },
   {

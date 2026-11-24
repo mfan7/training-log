@@ -6,7 +6,7 @@ A phone-first workout logger for a weekly gym session plus a home session, on a 
 - **计划**: create, edit, reorder and delete plans in the app; add your own exercises from the library or while picking one.
 - **历史**: tap a past session to see every set, volume (lb × reps) and the change from last time; 补录 enters a past workout.
 - **记录**: big steppers for weight and reps, one tap per set, automatic rest timer, swap or add exercises.
-- **动作库**: 119 exercises with Chinese/English names, cues, home substitutes, and the old trainer-session history.
+- **动作库**: 155 exercises (including 40 resistance-band moves for home) with Chinese/English names, cues, home substitutes, and the old trainer-session history; any of them can be edited in the app.
 - **同步**: every set is saved on the phone first (works with no signal), then synced to Supabase when online. CSV export in 设置.
 
 Stack: Vite + React + TypeScript, Dexie (IndexedDB), Supabase (Postgres + magic-link auth), GitHub Pages.

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { putExercise, uid } from '../lib/db';
-import { GROUP_ORDER } from '../lib/data';
+import { builtinOriginal, GROUP_ORDER } from '../lib/data';
 import type { Exercise, Load } from '../lib/types';
 import { Sheet } from './ExerciseSheet';
 import type { Muscle } from 'react-body-highlighter';
@@ -36,11 +36,16 @@ export function ExerciseForm({ initial, initialName = '', onSaved, onClose }: {
     const cn = f.cn.trim();
     if (!cn) { setErr('请填写动作名称'); return; }
     const id = initial?.id ?? `U-${uid()}`;
+    // editing a built-in exercise keeps what the form doesn't show: its category, notes and old records
+    const base = builtinOriginal(id);
     await putExercise({
       id, cn, en: f.en.trim(), group: f.group, equip: f.equip, load: f.load, inc: f.inc || 5,
       home: f.home, muscles: f.muscles.trim(), cue: f.cue.trim(), hiit: f.hiit,
       ...(map && map.primary.length + map.secondary.length > 0 ? { map } : {}),
-      cat: '', catName: '自定义', size: '', homeNote: '', legacy: [], custom: true, deleted: false,
+      ...(base
+        ? { cat: base.cat, catName: base.catName, size: base.size, homeNote: base.homeNote, legacy: base.legacy, custom: false }
+        : { cat: '', catName: '自定义', size: '', homeNote: '', legacy: [], custom: true }),
+      deleted: false,
     });
     onSaved(id);
   }

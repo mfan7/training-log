@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, putExercise } from '../lib/db';
-import { ex } from '../lib/data';
+import { ex, isBuiltin, isEdited } from '../lib/data';
 import { formatSet } from '../lib/plan';
 import { ExerciseForm } from './ExerciseForm';
 
@@ -45,6 +45,13 @@ export function ExerciseSheet({ id, onClose }: { id: string; onClose: () => void
     onClose();
   }
 
+  async function restore() {
+    const row = await db.exercises.get(id);
+    if (!row || !confirm(`把「${e.cn}」恢复成动作库原来的内容？你的修改会丢弃，已有的记录不受影响。`)) return;
+    const { updated_at: _u, dirty: _d, ...rest } = row;
+    await putExercise({ ...rest, deleted: true });
+  }
+
   if (editing) return <ExerciseForm initial={e} onSaved={() => setEditing(false)} onClose={() => setEditing(false)} />;
 
   return (
@@ -72,12 +79,13 @@ export function ExerciseSheet({ id, onClose }: { id: string; onClose: () => void
           <ul>{e.legacy.map((l) => <li key={l}>{l}</li>)}</ul>
         </>
       )}
-      {e.custom && (
-        <div className="stack section">
-          <button className="btn ghost" onClick={() => setEditing(true)}>编辑这个动作</button>
-          <button className="btn quiet" onClick={remove}>删除这个动作</button>
-        </div>
-      )}
+      <div className="stack section">
+        {isEdited(id) && <p className="msg">你修改过这个动作。</p>}
+        <button className="btn ghost" onClick={() => setEditing(true)}>编辑这个动作</button>
+        {isBuiltin(id)
+          ? isEdited(id) && <button className="btn quiet" onClick={restore}>恢复默认内容</button>
+          : <button className="btn quiet" onClick={remove}>删除这个动作</button>}
+      </div>
     </Sheet>
   );
 }

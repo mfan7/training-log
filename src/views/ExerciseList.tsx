@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { allExercises, GROUP_ORDER } from '../lib/data';
+import { allExercises, GROUP_ORDER, isEdited } from '../lib/data';
 import type { Exercise } from '../lib/types';
 
 /** Search + group filter + home-only toggle, shared by the library and the picker. */
@@ -49,7 +49,7 @@ export function ExerciseList({ initialGroup, homeOnly: initialHome = false, take
                 <span className="name" style={{ display: 'block', fontWeight: 600 }}>{e.cn}</span>
                 <span className="en" style={{ display: 'block', color: 'var(--muted)', fontSize: 13 }}>{e.en}</span>
               </span>
-              <span className="tag">{taken?.has(e.id) ? '已在计划中' : e.custom ? '自定义' : e.home ? '可在家' : e.equip}</span>
+              <span className="tag">{taken?.has(e.id) ? '已在计划中' : e.custom ? '自定义' : isEdited(e.id) ? '已修改' : e.home ? '可在家' : e.equip}</span>
             </button>
           </li>
         ))}

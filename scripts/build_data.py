@@ -25,7 +25,7 @@ LOWER = {"SQ", "HG", "SL"}
 # How an exercise's load is recorded
 LEVEL = {"VPL01"}  # assisted pull-up machine: weight field = assist level (lower is harder)
 TIMED = {"WU01", "WU02", "SQ07", "SQ12", "CO08", "CO12", "BL01", "BL04"}
-BODYWEIGHT_EQUIP = ("自重", "TRX", "单杠", "引体架", "罗马椅", "健腹轮", "弹力带", "BOSU")
+BODYWEIGHT_EQUIP = ("自重", "TRX", "单杠", "引体架", "罗马椅", "健腹轮", "BOSU")
 
 
 def load_type(eid: str, equip: str) -> str:
@@ -33,6 +33,8 @@ def load_type(eid: str, equip: str) -> str:
         return "level"
     if eid in TIMED:
         return "sec"
+    if equip.startswith("弹力带"):
+        return "lb"  # the band's labelled resistance; stacked bands add up
     if any(equip.startswith(b) for b in BODYWEIGHT_EQUIP) and "/" not in equip:
         return "bw"
     return "lb"

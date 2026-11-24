@@ -15,15 +15,25 @@ export const CLASS_ID = 'CL01';
 export const unitOf = (e: Exercise) => (e.load === 'sec' ? '秒' : e.load === 'min' ? '分钟' : '次');
 const SEEDS = templatesJson as SeedTemplate[];
 
-// Custom exercises are loaded from the local database; App keeps this in step via setCustomExercises.
-// Deleted ones stay findable by id so old sessions still show their names.
+const BUILTIN_IDS = new Set(BUILTIN_EXERCISES.map((e) => e.id));
+export const isBuiltin = (id: string) => BUILTIN_IDS.has(id);
+export const builtinOriginal = (id: string) => BUILTIN_EXERCISES.find((e) => e.id === id);
+
+// The exercises table holds your own exercises and your edits of built-in ones (same id as the
+// built-in; deleting the edit restores the original). App keeps this in step via setCustomExercises.
+// Your own deleted exercises stay findable by id so old sessions still show their names.
 let custom: Exercise[] = [];
+let edits = new Map<string, Exercise>();
 let byId = new Map(BUILTIN_EXERCISES.map((e) => [e.id, e]));
 export function setCustomExercises(list: CustomExercise[]) {
-  custom = list.filter((e) => !e.deleted).sort((a, b) => a.cn.localeCompare(b.cn, 'zh'));
-  byId = new Map([...BUILTIN_EXERCISES, ...list].map((e) => [e.id, e]));
+  const live = list.filter((e) => !e.deleted);
+  edits = new Map(live.filter((e) => BUILTIN_IDS.has(e.id)).map((e) => [e.id, e]));
+  custom = live.filter((e) => !BUILTIN_IDS.has(e.id)).sort((a, b) => a.cn.localeCompare(b.cn, 'zh'));
+  const own = list.filter((e) => !BUILTIN_IDS.has(e.id));
+  byId = new Map([...BUILTIN_EXERCISES, ...own, ...edits.values()].map((e) => [e.id, e]));
 }
-export const allExercises = (): Exercise[] => [...custom, ...BUILTIN_EXERCISES];
+export const isEdited = (id: string) => edits.has(id);
+export const allExercises = (): Exercise[] => [...custom, ...BUILTIN_EXERCISES.map((b) => edits.get(b.id) ?? b)];
 
 export const ex = (id: string): Exercise =>
   byId.get(id) ?? {
